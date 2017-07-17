@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B1104881F1CF57000C1CFFF /* PathSettingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1104861F1CF57000C1CFFF /* PathSettingWindowController.swift */; };
+		8B1104891F1CF57000C1CFFF /* PathSettingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B1104871F1CF57000C1CFFF /* PathSettingWindowController.xib */; };
 		8B4824601E76AB9E0072ED06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */; };
 		8B4824621E76AB9E0072ED06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B4824611E76AB9E0072ED06 /* Assets.xcassets */; };
 		8B4824651E76AB9E0072ED06 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4824631E76AB9E0072ED06 /* MainMenu.xib */; };
 		8B4824701E76AB9E0072ED06 /* LaunchXIVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48246F1E76AB9E0072ED06 /* LaunchXIVTests.swift */; };
 		8B48247B1E76AC630072ED06 /* FFXIVLoginServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */; };
-		8B48247D1E76AF4B0072ED06 /* SettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B48247C1E76AF4B0072ED06 /* SettingsWindow.xib */; };
 		8B4824901E77EA4C0072ED06 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */; };
 		8B4824911E77EA4C0072ED06 /* CommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8B4824921E77EA4C0072ED06 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248E1E77EA4C0072ED06 /* Crypto.framework */; };
@@ -48,6 +49,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8B1104861F1CF57000C1CFFF /* PathSettingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathSettingWindowController.swift; sourceTree = "<group>"; };
+		8B1104871F1CF57000C1CFFF /* PathSettingWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PathSettingWindowController.xib; sourceTree = "<group>"; };
 		8B48245C1E76AB9E0072ED06 /* LaunchXIV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchXIV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B4824611E76AB9E0072ED06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +60,6 @@
 		8B48246F1E76AB9E0072ED06 /* LaunchXIVTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchXIVTests.swift; sourceTree = "<group>"; };
 		8B4824711E76AB9E0072ED06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFXIVLoginServices.swift; sourceTree = "<group>"; };
-		8B48247C1E76AF4B0072ED06 /* SettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsWindow.xib; sourceTree = "<group>"; };
 		8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
 		8B48248E1E77EA4C0072ED06 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/Mac/Crypto.framework; sourceTree = "<group>"; };
 		8B48248F1E77EA4C0072ED06 /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/Mac/Locksmith.framework; sourceTree = "<group>"; };
@@ -109,10 +111,11 @@
 			isa = PBXGroup;
 			children = (
 				8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */,
+				8B1104861F1CF57000C1CFFF /* PathSettingWindowController.swift */,
+				8B1104871F1CF57000C1CFFF /* PathSettingWindowController.xib */,
 				8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */,
 				8B4824611E76AB9E0072ED06 /* Assets.xcassets */,
 				8B4824631E76AB9E0072ED06 /* MainMenu.xib */,
-				8B48247C1E76AF4B0072ED06 /* SettingsWindow.xib */,
 				8B4824661E76AB9E0072ED06 /* Info.plist */,
 			);
 			path = LaunchXIV;
@@ -215,7 +218,7 @@
 			files = (
 				8B4824621E76AB9E0072ED06 /* Assets.xcassets in Resources */,
 				8B4824651E76AB9E0072ED06 /* MainMenu.xib in Resources */,
-				8B48247D1E76AF4B0072ED06 /* SettingsWindow.xib in Resources */,
+				8B1104891F1CF57000C1CFFF /* PathSettingWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B1104881F1CF57000C1CFFF /* PathSettingWindowController.swift in Sources */,
 				8B4824601E76AB9E0072ED06 /* AppDelegate.swift in Sources */,
 				8B48247B1E76AC630072ED06 /* FFXIVLoginServices.swift in Sources */,
 			);

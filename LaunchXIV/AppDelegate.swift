@@ -10,13 +10,14 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-    @IBOutlet weak var window: NSWindow!
-
-
+    
+    var pathSettingWindowController: PathSettingWindowController?
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        
+        let c = PathSettingWindowController(windowNibName: NSNib.Name("PathSettingWindowController"))
+        c.showWindow(nil)
+        pathSettingWindowController = c
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
