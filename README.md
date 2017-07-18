@@ -25,6 +25,18 @@ stable version is available by clicking the Releases link above.
 
 # FAQ
 
+## What does it look like?
+
+Something like this:
+
+![Path Select Window](/Assets/SS1-Path.png)
+
+![Login Window](/Assets/SS2-Login.png)
+
+## When will this be working?
+
+When I finish it.
+
 ## How do I change the password?
 
 If you run the launcher and the Square Enix servers reject your credentials,
