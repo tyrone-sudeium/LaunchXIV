@@ -1,2 +1,3 @@
 github "spex-app/Locksmith" "master"
 github "soffes/Crypto"
+github "OskarGroth/OGSwitch"

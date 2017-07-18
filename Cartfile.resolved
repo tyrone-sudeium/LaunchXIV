@@ -1,3 +1,4 @@
+github "OskarGroth/OGSwitch" "1.7"
 github "soffes/CommonCrypto" "v1.1.0"
 github "soffes/Crypto" "v0.5.3"
 github "spex-app/Locksmith" "3ebaa39b1b47ab63ed324c73a3262b09897023f0"
