@@ -10,10 +10,11 @@ import Cocoa
 import OGSwitch
 
 class LoginSettingsWindowController: NSWindowController {
-
+    var navigator: ApplicationNavigation?
+    
     override func windowDidLoad() {
         super.windowDidLoad()
-        
+        window?.backgroundColor = NSColor.white
     }
     
 }

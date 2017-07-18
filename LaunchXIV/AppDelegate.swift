@@ -8,22 +8,37 @@
 
 import Cocoa
 
+protocol ApplicationNavigation {
+    func showPathSettingWindow()
+    func showLoginSettingsWindow()
+}
+
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, ApplicationNavigation {
     
-    var pathSettingWindowController: PathSettingWindowController?
+    var pathWC: PathSettingWindowController?
+    var loginWC: LoginSettingsWindowController?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        let c = PathSettingWindowController(windowNibName: NSNib.Name("PathSettingWindowController"))
-        c.showWindow(nil)
-        pathSettingWindowController = c
+        showPathSettingWindow()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
 
-
+    
+    func showPathSettingWindow() {
+        pathWC = PathSettingWindowController(windowNibName: NSNib.Name("PathSettingWindowController"))
+        pathWC?.showWindow(nil)
+        pathWC?.navigator = self
+    }
+    
+    func showLoginSettingsWindow() {
+        loginWC = LoginSettingsWindowController(windowNibName: NSNib.Name("LoginSettingsWindowController"))
+        loginWC?.showWindow(nil)
+        loginWC?.navigator = self
+    }
 }
 

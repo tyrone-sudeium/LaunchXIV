@@ -31,6 +31,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="nextButtonClicked:" target="-2" id="MS2-hg-cpw"/>
+                        </connections>
                     </button>
                     <box fixedFrame="YES" boxType="custom" borderType="none" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="5VQ-Qs-hem">
                         <rect key="frame" x="60" y="20" width="360" height="262"/>
@@ -72,7 +75,6 @@
                                 </textField>
                             </subviews>
                         </view>
-                        <font key="titleFont" metaFont="message" size="11"/>
                     </box>
                 </subviews>
             </view>
