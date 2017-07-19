@@ -211,7 +211,16 @@ private struct FFXIVLogin {
                 return
             }
             
-            
+            let op = SidParseOperation(html: html)
+            let queue = OperationQueue()
+            op.completionBlock = {
+                guard case let .some(SidParseResult.result(result)) = op.result else {
+                    completion(.error)
+                    return
+                }
+                completion(.success(storedSid: result))
+            }
+            queue.addOperation(op)
         }
         task.resume()
     }
