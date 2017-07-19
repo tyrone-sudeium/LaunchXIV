@@ -23,6 +23,7 @@
 		8B4824941E77EA4C0072ED06 /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248F1E77EA4C0072ED06 /* Locksmith.framework */; };
 		8B4824951E77EA4C0072ED06 /* Locksmith.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248F1E77EA4C0072ED06 /* Locksmith.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8B8A523E1F1F6338007E247D /* SidParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A523D1F1F6338007E247D /* SidParseOperation.swift */; };
+		8B9CEA931F1F85D800CA9FAE /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */; };
 		8BEFF4001F1E13880031014A /* OGSwitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF5D5071F1E1352000BA641 /* OGSwitch.framework */; };
 		8BEFF4011F1E13880031014A /* OGSwitch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF5D5071F1E1352000BA641 /* OGSwitch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -72,6 +73,7 @@
 		8B48248E1E77EA4C0072ED06 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/Mac/Crypto.framework; sourceTree = "<group>"; };
 		8B48248F1E77EA4C0072ED06 /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/Mac/Locksmith.framework; sourceTree = "<group>"; };
 		8B8A523D1F1F6338007E247D /* SidParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidParseOperation.swift; sourceTree = "<group>"; };
+		8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		8BF5D5071F1E1352000BA641 /* OGSwitch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OGSwitch.framework; path = Carthage/Build/Mac/OGSwitch.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +131,7 @@
 				8B11048B1F1E0E2700C1CFFF /* LoginSettingsWindowController.xib */,
 				8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */,
 				8B8A523D1F1F6338007E247D /* SidParseOperation.swift */,
+				8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */,
 				8B4824611E76AB9E0072ED06 /* Assets.xcassets */,
 				8B4824631E76AB9E0072ED06 /* MainMenu.xib */,
 				8B4824661E76AB9E0072ED06 /* Info.plist */,
@@ -256,6 +259,7 @@
 				8B8A523E1F1F6338007E247D /* SidParseOperation.swift in Sources */,
 				8B1104881F1CF57000C1CFFF /* PathSettingWindowController.swift in Sources */,
 				8B4824601E76AB9E0072ED06 /* AppDelegate.swift in Sources */,
+				8B9CEA931F1F85D800CA9FAE /* AsyncOperation.swift in Sources */,
 				8B48247B1E76AC630072ED06 /* FFXIVLoginServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

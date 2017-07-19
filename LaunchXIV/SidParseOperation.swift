@@ -26,7 +26,7 @@ public enum SidParseResult: Equatable {
     }
 }
 
-class SidParseOperation: Operation, WebFrameLoadDelegate {
+public class SidParseOperation: AsyncOperation, WebFrameLoadDelegate {
     let html: String
     
     init(html: String) {
@@ -34,46 +34,10 @@ class SidParseOperation: Operation, WebFrameLoadDelegate {
         super.init()
     }
     
-    enum State: String {
-        case ready, executing, finished
-    }
-    
-    override var isAsynchronous: Bool {
-        return true
-    }
-    
-    var state = State.ready {
-        willSet {
-            willChangeValue(forKey: "isExecuting")
-            willChangeValue(forKey: "isFinished")
-        }
-        didSet {
-            didChangeValue(forKey: "isExecuting")
-            didChangeValue(forKey: "isFinished")
-        }
-    }
-    
-    override var isExecuting: Bool {
-        return state == .executing
-    }
-    
-    override var isFinished: Bool {
-        return state == .finished
-    }
-    
-    override func start() {
-        if self.isCancelled {
-            state = .finished
-        } else {
-            state = .ready
-            main()
-        }
-    }
-    
     var webView: WebView!
     var result: SidParseResult?
     
-    override func main() {
+    override open func main() {
         if self.isCancelled {
             state = .finished
             return
@@ -88,7 +52,7 @@ class SidParseOperation: Operation, WebFrameLoadDelegate {
         }
     }
     
-    func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
+    public func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
         guard let fields = webView.mainFrame.domDocument.getElementsByName("_STORED_") else {
             result = .error
             state = .finished
