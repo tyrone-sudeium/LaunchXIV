@@ -13,29 +13,29 @@ import Crypto
 
 
 public enum FFXIVExpansionLevel: UInt32 {
-    case ARealmReborn = 0
-    case Heavensward = 1
-    case Stormblood = 2 // Probably.
+    case aRealmReborn = 0
+    case heavensward = 1
+    case stormblood = 2 // Probably.
 }
 
-public enum FFXIVLanguage: UInt32 {
-    case Japanese = 0
-    case English = 1
-    case French = 2
-    case German = 3
+public enum FFXIVRegion: UInt32 {
+    case japanese = 0
+    case english = 1
+    case french = 2
+    case german = 3
     
-    static func guessFromLocale() -> FFXIVLanguage {
+    static func guessFromLocale() -> FFXIVRegion {
         switch NSLocale.current.languageCode {
         case "ja"?:
-            return .Japanese
+            return .japanese
         case "en"?:
-            return .English
+            return .english
         case "fr"?:
-            return .French
+            return .french
         case "de"?:
-            return .German
+            return .german
         default:
-            return .English
+            return .english
         }
     }
 }
@@ -98,23 +98,31 @@ extension FFXIVLoginData: CreateableSecureStorable {
 }
 
 public enum FFXIVLoginResult {
-    case Success(sid: String)
-    case ClientUpdate
-    case IncorretCredentials
+    case success(sid: String)
+    case clientUpdate
+    case incorretCredentials
+    case protocolError
+}
+
+private enum FFXIVLoginPageData {
+    case success(storedSid: String)
+    case error
 }
 
 public struct FFXIVSettings {
     public var login: FFXIVLoginData?
-    public var expansionId: FFXIVExpansionLevel = .ARealmReborn
+    public var expansionId: FFXIVExpansionLevel = .aRealmReborn
     public var directX11: Bool = false
     public var usesOneTimePassword: Bool = false
     public var appPath: URL = URL(fileURLWithPath: "/Applications/FINAL FANTASY XIV.app")
+    public var region: FFXIVRegion = FFXIVRegion.guessFromLocale()
     
     static func storedSettings(storage: UserDefaults = UserDefaults.standard) -> FFXIVSettings {
         guard let storedUsername = storage.string(forKey: "username"),
             let login = FFXIVLoginData.storedLogin(username: storedUsername),
             let appPath = storage.string(forKey: "appPath"),
-            let expansionId = FFXIVExpansionLevel(rawValue: UInt32(storage.integer(forKey: "expansionId")))
+            let expansionId = FFXIVExpansionLevel(rawValue: UInt32(storage.integer(forKey: "expansionId"))),
+            let region = FFXIVRegion(rawValue: UInt32(storage.integer(forKey: "region")))
         else {
             return FFXIVSettings()
         }
@@ -122,7 +130,7 @@ public struct FFXIVSettings {
         let directX11 = storage.bool(forKey: "directX11")
         let usesOneTimePassword = storage.bool(forKey: "usesOneTimePassword")
         return FFXIVSettings(login: login, expansionId: expansionId, directX11: directX11,
-                             usesOneTimePassword: usesOneTimePassword, appPath: URL(fileURLWithPath: appPath))
+                             usesOneTimePassword: usesOneTimePassword, appPath: URL(fileURLWithPath: appPath), region: region)
     }
     
     func serializeInto(storage: UserDefaults = UserDefaults.standard) {
@@ -133,6 +141,7 @@ public struct FFXIVSettings {
         storage.set(directX11, forKey: "directX11")
         storage.set(usesOneTimePassword, forKey: "usesOneTimePassword")
         storage.set(appPath, forKey: "appPath")
+        storage.set(region, forKey: "region")
     }
 }
 
@@ -153,6 +162,10 @@ private struct FFXIVLogin {
         "User-Agent": "FFXIV PATCH CLIENT"
     ]
     
+    var loginURL: URL {
+        return URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn=\(settings.region)")!
+    }
+    
     let settings: FFXIVSettings
     let app: FFXIVApp
     
@@ -172,6 +185,36 @@ private struct FFXIVLogin {
 //    func bootVersion() -> String {
 //        
 //    }
+    
+    private func getStoredSID(completion: @escaping ((FFXIVLoginPageData) -> Void)) {
+        let session = URLSession(configuration: .default)
+        let req = NSMutableURLRequest(url: loginURL)
+        for (hdr, val) in FFXIVLogin.loginHeaders {
+            req.addValue(val, forHTTPHeaderField: hdr)
+        }
+        let task = session.dataTask(with: req as URLRequest) { (data, resp, err) in
+            guard let response = resp as? HTTPURLResponse else {
+                completion(.error)
+                return
+            }
+            guard let data = data else {
+                completion(.error)
+                return
+            }
+            if response.statusCode != 200 || err != nil || data.count == 0 {
+                completion(.error)
+                return
+            }
+            
+            guard let html = String(data: data, encoding: .utf8) else {
+                completion(.error)
+                return
+            }
+            
+            
+        }
+        task.resume()
+    }
 }
 
 private struct FFXIVApp {
