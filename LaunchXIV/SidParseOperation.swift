@@ -62,12 +62,13 @@ public class SidParseOperation: AsyncOperation, WebFrameLoadDelegate {
             let node = fields.item(i)!
             guard let inputNode = node as? DOMHTMLInputElement,
                 let value = inputNode.value else {
-                result = .error
-                state = .finished
-                return
+                continue
             }
             result = .result(value)
-            state = .finished
         }
+        if result == nil {
+            result = .error
+        }
+        state = .finished
     }
 }
