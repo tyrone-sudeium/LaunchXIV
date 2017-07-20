@@ -22,6 +22,35 @@ class AppDelegate: NSObject, NSApplicationDelegate, ApplicationNavigation {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         showPathSettingWindow()
+        
+        // TODO: The below happens after username/password/otp
+        let settings = FFXIVSettings.storedSettings()
+        settings.login() { result in
+            switch result {
+            case .protocolError:
+                let alert = NSAlert()
+                alert.addButton(withTitle: "Ok")
+                alert.alertStyle = .critical
+                alert.messageText = "Login system error"
+                alert.informativeText = "The login servers did not present the login challenge the way we were expecting. " +
+                    "It may have changed on the server. Please check for an update to LaunchXIV to fix this. In the meantime " +
+                    "please use the default launcher."
+                alert.runModal()
+                exit(0)
+            case .incorretCredentials:
+                self.showLoginSettingsWindow()
+            case .clientUpdate:
+                let alert = NSAlert()
+                alert.addButton(withTitle: "Ok")
+                alert.alertStyle = .critical
+                alert.messageText = "Final Fantasy XIV Needs Updating!"
+                alert.informativeText = "LaunchXIV cannot patch Final Fantasy XIV. Please use the standard launcher to patch."
+                alert.runModal()
+                exit(0)
+            case .success(let sid):
+                print("sid = \(sid)")
+            }
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

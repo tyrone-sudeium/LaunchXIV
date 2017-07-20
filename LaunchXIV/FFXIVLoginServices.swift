@@ -40,7 +40,7 @@ public enum FFXIVRegion: UInt32 {
     }
 }
 
-public struct FFXIVLoginData: InternetPasswordSecureStorable {
+public struct FFXIVLoginCredentials: InternetPasswordSecureStorable {
     let username: String
     let password: String
     var oneTimePassword: String? = nil
@@ -70,8 +70,8 @@ public struct FFXIVLoginData: InternetPasswordSecureStorable {
         return username
     }
     
-    static func storedLogin(username: String) -> FFXIVLoginData? {
-        let loginQuery = FFXIVLoginData(username: username)
+    static func storedLogin(username: String) -> FFXIVLoginCredentials? {
+        let loginQuery = FFXIVLoginCredentials(username: username)
         let keychainResult = loginQuery.readFromSecureStore()
         guard let passwordDict = keychainResult?.data else {
             return nil
@@ -79,21 +79,21 @@ public struct FFXIVLoginData: InternetPasswordSecureStorable {
         guard let storedPassword = passwordDict["password"] as? String else {
             return nil
         }
-        return FFXIVLoginData(username: username, password: storedPassword)
+        return FFXIVLoginCredentials(username: username, password: storedPassword)
     }
     
 
 }
 
-extension FFXIVLoginData: ReadableSecureStorable {
+extension FFXIVLoginCredentials: ReadableSecureStorable {
     
 }
 
-extension FFXIVLoginData: DeleteableSecureStorable {
+extension FFXIVLoginCredentials: DeleteableSecureStorable {
     
 }
 
-extension FFXIVLoginData: CreateableSecureStorable {
+extension FFXIVLoginCredentials: CreateableSecureStorable {
     
 }
 
@@ -110,7 +110,7 @@ private enum FFXIVLoginPageData {
 }
 
 public struct FFXIVSettings {
-    public var login: FFXIVLoginData?
+    public var credentials: FFXIVLoginCredentials?
     public var expansionId: FFXIVExpansionLevel = .aRealmReborn
     public var directX11: Bool = false
     public var usesOneTimePassword: Bool = false
@@ -119,7 +119,7 @@ public struct FFXIVSettings {
     
     static func storedSettings(storage: UserDefaults = UserDefaults.standard) -> FFXIVSettings {
         guard let storedUsername = storage.string(forKey: "username"),
-            let login = FFXIVLoginData.storedLogin(username: storedUsername),
+            let login = FFXIVLoginCredentials.storedLogin(username: storedUsername),
             let appPath = storage.string(forKey: "appPath"),
             let expansionId = FFXIVExpansionLevel(rawValue: UInt32(storage.integer(forKey: "expansionId"))),
             let region = FFXIVRegion(rawValue: UInt32(storage.integer(forKey: "region")))
@@ -129,12 +129,12 @@ public struct FFXIVSettings {
         
         let directX11 = storage.bool(forKey: "directX11")
         let usesOneTimePassword = storage.bool(forKey: "usesOneTimePassword")
-        return FFXIVSettings(login: login, expansionId: expansionId, directX11: directX11,
+        return FFXIVSettings(credentials: login, expansionId: expansionId, directX11: directX11,
                              usesOneTimePassword: usesOneTimePassword, appPath: URL(fileURLWithPath: appPath), region: region)
     }
     
     func serializeInto(storage: UserDefaults = UserDefaults.standard) {
-        if let username = login?.username {
+        if let username = credentials?.username {
             storage.set(username, forKey: "username")
         }
         storage.set(expansionId.rawValue, forKey: "expansionId")
@@ -142,6 +142,31 @@ public struct FFXIVSettings {
         storage.set(usesOneTimePassword, forKey: "usesOneTimePassword")
         storage.set(appPath, forKey: "appPath")
         storage.set(region, forKey: "region")
+    }
+    
+    public func login(completion: @escaping ((FFXIVLoginResult) -> Void)) {
+        let login = FFXIVLogin(settings: self)
+        login.getStoredSID() { result in
+            switch result {
+            case .error:
+                completion(.protocolError)
+            case .success(let storedSid):
+                self.checkCredentials(storedSid: storedSid, login: login, completion: completion)
+            }
+        }
+    }
+    
+    private func checkCredentials(storedSid: String, login: FFXIVLogin, completion: ((FFXIVLoginResult) -> Void)) {
+        // TODO.
+        completion(.success(sid: storedSid))
+    }
+}
+
+private class FFXIVSSLDelegate: NSObject, URLSessionDelegate {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        // Always trust the Square Enix server. Yep, this can totally make us vulnerable to MITM, but you can
+        // blame SE for not setting up SSL correctly! The REAL launcher is vulnerable to MITM.
+        completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
 }
 
@@ -168,6 +193,7 @@ private struct FFXIVLogin {
     
     let settings: FFXIVSettings
     let app: FFXIVApp
+    let sslDelegate = FFXIVSSLDelegate()
     
     init(settings: FFXIVSettings) {
         self.settings = settings
@@ -186,8 +212,8 @@ private struct FFXIVLogin {
 //        
 //    }
     
-    private func getStoredSID(completion: @escaping ((FFXIVLoginPageData) -> Void)) {
-        let session = URLSession(configuration: .default)
+    fileprivate func getStoredSID(completion: @escaping ((FFXIVLoginPageData) -> Void)) {
+        let session = URLSession(configuration: .default, delegate: sslDelegate, delegateQueue: nil)
         let req = NSMutableURLRequest(url: loginURL)
         for (hdr, val) in FFXIVLogin.loginHeaders {
             req.addValue(val, forHTTPHeaderField: hdr)
@@ -214,11 +240,13 @@ private struct FFXIVLogin {
             let op = SidParseOperation(html: html)
             let queue = OperationQueue()
             op.completionBlock = {
-                guard case let .some(SidParseResult.result(result)) = op.result else {
-                    completion(.error)
-                    return
+                DispatchQueue.main.async {
+                    guard case let .some(SidParseResult.result(result)) = op.result else {
+                        completion(.error)
+                        return
+                    }
+                    completion(.success(storedSid: result))
                 }
-                completion(.success(storedSid: result))
             }
             queue.addOperation(op)
         }
