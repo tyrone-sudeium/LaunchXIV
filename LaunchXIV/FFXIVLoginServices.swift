@@ -15,7 +15,7 @@ import Crypto
 public enum FFXIVExpansionLevel: UInt32 {
     case aRealmReborn = 0
     case heavensward = 1
-    case stormblood = 2 // Probably.
+    case stormblood = 2
 }
 
 public enum FFXIVRegion: UInt32 {
@@ -100,7 +100,7 @@ extension FFXIVLoginCredentials: CreateableSecureStorable {
 public enum FFXIVLoginResult {
     case success(sid: String)
     case clientUpdate
-    case incorretCredentials
+    case incorrectCredentials
     case protocolError
 }
 

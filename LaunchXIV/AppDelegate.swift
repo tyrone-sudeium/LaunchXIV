@@ -8,23 +8,17 @@
 
 import Cocoa
 
-protocol ApplicationNavigation {
-    func showPathSettingWindow()
-    func showLoginSettingsWindow()
-}
-
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, ApplicationNavigation {
-    
-    var pathWC: PathSettingWindowController?
-    var loginWC: LoginSettingsWindowController?
+class AppDelegate: NSObject, NSApplicationDelegate {
+    var mainWC: MainWindowController?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-        showPathSettingWindow()
-        
-        // TODO: The below happens after username/password/otp
         let settings = FFXIVSettings.storedSettings()
+        showMainWindow(settings: settings)
+        
+        return;
+        // TODO: The below happens after username/password/otp
+
         settings.login() { result in
             switch result {
             case .protocolError:
@@ -37,8 +31,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ApplicationNavigation {
                     "please use the default launcher."
                 alert.runModal()
                 exit(0)
-            case .incorretCredentials:
-                self.showLoginSettingsWindow()
+            case .incorrectCredentials:
+                break
             case .clientUpdate:
                 let alert = NSAlert()
                 alert.addButton(withTitle: "Ok")
@@ -56,18 +50,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, ApplicationNavigation {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
     
-    func showPathSettingWindow() {
-        pathWC = PathSettingWindowController(windowNibName: NSNib.Name("PathSettingWindowController"))
-        pathWC?.showWindow(nil)
-        pathWC?.navigator = self
-    }
-    
-    func showLoginSettingsWindow() {
-        loginWC = LoginSettingsWindowController(windowNibName: NSNib.Name("LoginSettingsWindowController"))
-        loginWC?.showWindow(nil)
-        loginWC?.navigator = self
+    func showMainWindow(settings: FFXIVSettings) {
+        mainWC = MainWindowController(windowNibName: NSNib.Name("MainWindowController"))
+        mainWC?.settings = settings
+        mainWC?.showWindow(self)
     }
 }
 
