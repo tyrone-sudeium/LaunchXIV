@@ -56,5 +56,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         mainWC?.settings = settings
         mainWC?.showWindow(self)
     }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true
+    }
 }
 

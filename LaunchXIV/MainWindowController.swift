@@ -57,25 +57,34 @@ class MainWindowController: NSWindowController, Navigator {
 
     var state: State = .pathSettings
     
-    override func windowDidLoad() {
-        super.windowDidLoad()
-        
-        changeState(newState: state, animated: false)
-    }
+    // It's like NSWindowController's contentViewController, but without the weird-ass behaviour
+    // specifically: it lets me change the current view and animate the size change
+    var contentVC: NSViewController?
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        DispatchQueue.main.async {
+            self.changeState(newState: self.state, animated: false)
+        }
+    }
+
     func changeState(newState: State, animated: Bool) {
         state = newState
         let newVC = newState.viewController(settings: settings, navigator: self)
-        if let oldVC = contentViewController {
+        if let oldVC = contentVC {
             oldVC.view.removeFromSuperview()
             oldVC.removeFromParentViewController()
         }
-        contentView.addSubview(newVC.view)
-        self.contentViewController = newVC
         
         var frame = window!.frame
         frame.size = newVC.view.bounds.size
+        frame.size.height += 20
         window!.setFrame(frame, display: true, animate: animated)
+        window!.contentMinSize = newVC.view.bounds.size
+        
+        contentView.addSubview(newVC.view)
+        contentVC = newVC
     }
     
     func goToPathSettings() {

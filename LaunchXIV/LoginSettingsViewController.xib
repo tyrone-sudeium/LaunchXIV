@@ -19,11 +19,11 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view wantsLayer="YES" id="CtR-E9-n5I">
             <rect key="frame" x="0.0" y="0.0" width="500" height="195"/>
-            <autoresizingMask key="autoresizingMask"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AR-8L-sTB">
                     <rect key="frame" x="22" y="139" width="456" height="36"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" focusRingType="none" placeholderString="Username" usesSingleLineMode="YES" id="zaZ-Zm-8ja">
                         <font key="font" metaFont="systemLight" size="30"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -32,7 +32,7 @@
                 </textField>
                 <secureTextField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o8s-7Z-z2n">
                     <rect key="frame" x="22" y="83" width="456" height="36"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" focusRingType="none" placeholderString="Password" usesSingleLineMode="YES" id="uYE-Ay-Nbf">
                         <font key="font" metaFont="systemLight" size="30"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -48,7 +48,7 @@
                 </customView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e2s-qz-gdF">
                     <rect key="frame" x="90" y="30" width="267" height="24"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Use one-time password" id="KtM-iH-sIO">
                         <font key="font" metaFont="systemLight" size="20"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

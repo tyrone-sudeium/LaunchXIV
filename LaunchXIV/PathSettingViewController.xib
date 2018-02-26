@@ -21,7 +21,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view wantsLayer="YES" id="ybh-ad-rT3">
             <rect key="frame" x="0.0" y="0.0" width="480" height="302"/>
-            <autoresizingMask key="autoresizingMask"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rGm-xh-fgH">
                     <rect key="frame" x="356" y="13" width="110" height="32"/>
