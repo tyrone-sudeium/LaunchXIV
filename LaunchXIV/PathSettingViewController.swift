@@ -39,37 +39,12 @@ class PathDragDropView: NSView {
         }
         for file in files {
             let url = URL(fileURLWithPath: file)
-            if appPathIsValid(url: url) {
+            if FFXIVSettings.appPathIsValid(url: url) {
                 return url
             }
         }
         return nil
     }
-}
-
-fileprivate func appPathIsValid(url: URL?) -> Bool {
-    guard let url = url else {
-        return false
-    }
-    let fm = FileManager()
-    if !url.isFileURL {
-        return false
-    }
-    var isDir: ObjCBool = false
-    if !fm.fileExists(atPath: url.path, isDirectory: &isDir) || !isDir.boolValue {
-        return false
-    }
-    
-    guard let bundle = Bundle(url: url) else {
-        return false
-    }
-    guard let bundleId = bundle.object(forInfoDictionaryKey: kCFBundleIdentifierKey as String) as? String else {
-        return false
-    }
-    if bundleId != "com.transgaming.realmreborn" {
-        return false
-    }
-    return true
 }
 
 class PathSettingViewController: NSViewController, MainWindowContentViewController, PathDragDropViewDelegate {
@@ -89,11 +64,20 @@ class PathSettingViewController: NSViewController, MainWindowContentViewControll
         dragDropView.registerForDraggedTypes([filenamesType])
         dragDropView.delegate = self
         imageView.unregisterDraggedTypes()
+        
+        if settings.appPath == nil {
+            // Attempt to find FFXIV at the default path
+            let url = URL(fileURLWithPath: "/Applications/FINAL FANTASY XIV.app")
+            if FFXIVSettings.appPathIsValid(url: url) {
+                settings.appPath = url
+            }
+        }
+        
         render()
     }
     
     @IBAction func nextButtonClicked(_ sender: Any) {
-        if appPathIsValid(url: settings.appPath) {
+        if FFXIVSettings.appPathIsValid(url: settings.appPath) {
             navigator.goToLoginSettings()
         }
     }
@@ -110,7 +94,7 @@ class PathSettingViewController: NSViewController, MainWindowContentViewControll
                 guard let url = panel.urls.first else {
                     return
                 }
-                if appPathIsValid(url: url) {
+                if FFXIVSettings.appPathIsValid(url: url) {
                     self.settings.appPath = url
                 } else {
                     // They (deliberately?) selected something wrong. Nil out.
@@ -122,7 +106,7 @@ class PathSettingViewController: NSViewController, MainWindowContentViewControll
     }
     
     func render() {
-        if appPathIsValid(url: settings.appPath) {
+        if FFXIVSettings.appPathIsValid(url: settings.appPath) {
             // Render the icon and its path
             topLabel.stringValue = settings.appPath!.path
             let image = NSWorkspace.shared.icon(forFile: settings.appPath!.path)
@@ -137,7 +121,7 @@ class PathSettingViewController: NSViewController, MainWindowContentViewControll
     }
     
     func filePathDragged(url: URL) -> Bool {
-        if appPathIsValid(url: url) {
+        if FFXIVSettings.appPathIsValid(url: url) {
             DispatchQueue.main.async {
                 self.settings.appPath = url
                 self.render()

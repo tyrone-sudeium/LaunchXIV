@@ -114,34 +114,64 @@ public struct FFXIVSettings {
     public var expansionId: FFXIVExpansionLevel = .aRealmReborn
     public var directX11: Bool = false
     public var usesOneTimePassword: Bool = false
-    public var appPath: URL? = URL(fileURLWithPath: "/Applications/FINAL FANTASY XIV.app")
+    public var appPath: URL?
     public var region: FFXIVRegion = FFXIVRegion.guessFromLocale()
     
     static func storedSettings(storage: UserDefaults = UserDefaults.standard) -> FFXIVSettings {
-        guard let storedUsername = storage.string(forKey: "username"),
-            let login = FFXIVLoginCredentials.storedLogin(username: storedUsername),
-            let appPath = storage.string(forKey: "appPath"),
-            let expansionId = FFXIVExpansionLevel(rawValue: UInt32(storage.integer(forKey: "expansionId"))),
-            let region = FFXIVRegion(rawValue: UInt32(storage.integer(forKey: "region")))
-        else {
-            return FFXIVSettings()
+        var settings = FFXIVSettings()
+        if let storedUsername = storage.string(forKey: "username") {
+            let login = FFXIVLoginCredentials.storedLogin(username: storedUsername)
+            settings.credentials = login
         }
-        
-        let directX11 = storage.bool(forKey: "directX11")
-        let usesOneTimePassword = storage.bool(forKey: "usesOneTimePassword")
-        return FFXIVSettings(credentials: login, expansionId: expansionId, directX11: directX11,
-                             usesOneTimePassword: usesOneTimePassword, appPath: URL(fileURLWithPath: appPath), region: region)
+        if let path = storage.string(forKey: "appPath") {
+            settings.appPath = URL(fileURLWithPath: path)
+        }
+        if let expansionId = FFXIVExpansionLevel(rawValue: UInt32(storage.integer(forKey: "expansionId"))) {
+            settings.expansionId = expansionId
+        }
+        if let region = FFXIVRegion(rawValue: UInt32(storage.integer(forKey: "region"))) {
+            settings.region = region
+        }
+        settings.directX11 = storage.bool(forKey: "directX11")
+        settings.usesOneTimePassword = storage.bool(forKey: "usesOneTimePassword")
+        return settings
     }
     
-    func serializeInto(storage: UserDefaults = UserDefaults.standard) {
+    static func appPathIsValid(url: URL?) -> Bool {
+        guard let url = url else {
+            return false
+        }
+        let fm = FileManager()
+        if !url.isFileURL {
+            return false
+        }
+        var isDir: ObjCBool = false
+        if !fm.fileExists(atPath: url.path, isDirectory: &isDir) || !isDir.boolValue {
+            return false
+        }
+        
+        guard let bundle = Bundle(url: url) else {
+            return false
+        }
+        guard let bundleId = bundle.object(forInfoDictionaryKey: kCFBundleIdentifierKey as String) as? String else {
+            return false
+        }
+        if bundleId != "com.transgaming.realmreborn" {
+            return false
+        }
+        return true
+    }
+    
+    func serialize(into storage: UserDefaults = UserDefaults.standard) {
         if let username = credentials?.username {
             storage.set(username, forKey: "username")
         }
         storage.set(expansionId.rawValue, forKey: "expansionId")
         storage.set(directX11, forKey: "directX11")
         storage.set(usesOneTimePassword, forKey: "usesOneTimePassword")
-        storage.set(appPath, forKey: "appPath")
-        storage.set(region, forKey: "region")
+        storage.set(appPath?.path, forKey: "appPath")
+        storage.set(region.rawValue, forKey: "region")
+        storage.synchronize()
     }
     
     public func login(completion: @escaping ((FFXIVLoginResult) -> Void)) {
