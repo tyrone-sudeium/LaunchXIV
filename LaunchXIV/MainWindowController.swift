@@ -17,6 +17,7 @@ protocol Navigator {
 
 protocol MainWindowContentViewController {
     var settings: FFXIVSettings! { get set }
+    var navigator: Navigator! { get set }
     var view: NSView { get }
 }
 
@@ -46,9 +47,10 @@ class MainWindowController: NSWindowController, Navigator {
             }
         }
         
-        fileprivate func viewController(settings: FFXIVSettings) -> ContentViewController {
+        fileprivate func viewController(settings: FFXIVSettings, navigator: Navigator) -> ContentViewController {
             var vc = loadViewController()
             vc.settings = settings
+            vc.navigator = navigator
             return vc
         }
     }
@@ -63,7 +65,7 @@ class MainWindowController: NSWindowController, Navigator {
     
     func changeState(newState: State, animated: Bool) {
         state = newState
-        let newVC = newState.viewController(settings: settings)
+        let newVC = newState.viewController(settings: settings, navigator: self)
         if let oldVC = contentViewController {
             oldVC.view.removeFromSuperview()
             oldVC.removeFromParentViewController()

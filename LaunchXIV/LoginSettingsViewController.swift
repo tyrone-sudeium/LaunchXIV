@@ -10,6 +10,7 @@ import Cocoa
 import OGSwitch
 
 class LoginSettingsViewController: NSViewController, MainWindowContentViewController {
+    var navigator: Navigator!
     var settings: FFXIVSettings!
     @IBOutlet var usernameField: NSTextField!
     @IBOutlet var passwordField: NSSecureTextField!

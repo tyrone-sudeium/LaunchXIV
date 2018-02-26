@@ -114,7 +114,7 @@ public struct FFXIVSettings {
     public var expansionId: FFXIVExpansionLevel = .aRealmReborn
     public var directX11: Bool = false
     public var usesOneTimePassword: Bool = false
-    public var appPath: URL = URL(fileURLWithPath: "/Applications/FINAL FANTASY XIV.app")
+    public var appPath: URL? = URL(fileURLWithPath: "/Applications/FINAL FANTASY XIV.app")
     public var region: FFXIVRegion = FFXIVRegion.guessFromLocale()
     
     static func storedSettings(storage: UserDefaults = UserDefaults.standard) -> FFXIVSettings {
@@ -145,7 +145,9 @@ public struct FFXIVSettings {
     }
     
     public func login(completion: @escaping ((FFXIVLoginResult) -> Void)) {
-        let login = FFXIVLogin(settings: self)
+        guard let login = FFXIVLogin(settings: self) else {
+            return
+        }
         login.getStoredSID() { result in
             switch result {
             case .error:
@@ -195,9 +197,12 @@ private struct FFXIVLogin {
     let app: FFXIVApp
     let sslDelegate = FFXIVSSLDelegate()
     
-    init(settings: FFXIVSettings) {
+    init?(settings: FFXIVSettings) {
+        guard let url = settings.appPath else {
+            return nil
+        }
         self.settings = settings
-        app = FFXIVApp(settings.appPath)
+        app = FFXIVApp(url)
     }
     
 //    var bootVersion: String {

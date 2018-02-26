@@ -10,6 +10,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PathSettingViewController" customModule="LaunchXIV" customModuleProvider="target">
             <connections>
+                <outlet property="bottomLabel" destination="rPU-Ga-lFs" id="c6O-yg-XAE"/>
+                <outlet property="imageView" destination="CVW-hd-hgy" id="JRN-9q-Ipo"/>
+                <outlet property="topLabel" destination="Em3-qC-y3s" id="2nU-IM-VtD"/>
                 <outlet property="view" destination="ybh-ad-rT3" id="3zh-BD-PvS"/>
             </connections>
         </customObject>
@@ -40,7 +43,7 @@
                             <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CVW-hd-hgy">
                                 <rect key="frame" x="127" y="136" width="106" height="106"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="DragSymbol" id="IGs-ml-TTy"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" image="DragSymbol" id="IGs-ml-TTy"/>
                             </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05J-Mq-ObB">
                                 <rect key="frame" x="111" y="13" width="138" height="32"/>
@@ -49,6 +52,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="browseButtonAction:" target="-2" id="jrM-qN-Fwa"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Em3-qC-y3s">
                                 <rect key="frame" x="18" y="97" width="324" height="19"/>
