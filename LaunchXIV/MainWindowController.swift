@@ -43,7 +43,7 @@ class MainWindowController: NSWindowController, Navigator {
                 // TODO: crashy times
                 return NSViewController() as! ContentViewController
             case .loading:
-                return NSViewController() as! ContentViewController
+                return LoadingViewController(nibName: NSNib.Name("LoadingViewController"), bundle: Bundle.main)
             }
         }
         

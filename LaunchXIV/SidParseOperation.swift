@@ -1,74 +1,53 @@
 //
-//  StoredSidParser.swift
+//  SidParseOperation.swift
 //  LaunchXIV
 //
-//  Created by Tyrone Trevorrow on 19/7/17.
-//  Copyright © 2017 Tyrone Trevorrow. All rights reserved.
+//  Created by Tyrone Trevorrow on 27/2/18.
+//  Copyright © 2018 Tyrone Trevorrow. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 import WebKit
+import JavaScriptCore
 
-// Fetches the stored sid out of a login page html
-public enum SidParseResult: Equatable {
-    case result(String)
-    case error
-    
-    public static func ==(lhs: SidParseResult, rhs: SidParseResult) -> Bool {
-        switch (lhs, rhs) {
-        case (.error, .error):
-            return true
-        case (let .result(r1), let .result(r2)):
-            return r1 == r2
-        default:
-            return false
-        }
-    }
+@objc protocol SidParseJSExport: JSExport {
+    func user(_ string: String)
 }
 
-public class SidParseOperation: AsyncOperation, WebFrameLoadDelegate {
-    let html: String
+@objc public class SidParseOperation: HTMLParseOperation, SidParseJSExport {
+    var loginStr: String?
     
-    init(html: String) {
-        self.html = html
-        super.init()
-    }
-    
-    var webView: WebView!
-    var result: SidParseResult?
-    
-    override open func main() {
-        if self.isCancelled {
-            state = .finished
+    public override func parseWebView() {
+        guard let jsText = webView.mainFrame.domDocument.getElementsByName("mainForm")?.item(0)?.childNodes?.item(1)?.textContent else {
+            errorOut()
             return
-        } else {
-            state = .executing
         }
+        let js = JSContext()!
+        js.exceptionHandler = { context, value in
+            print(value!.debugDescription)
+        }
+        let window = JSValue(newObjectIn: js)!
+        window.setObject(self, forKeyedSubscript: "external" as NSString)
+        js.setObject(window, forKeyedSubscript: "window" as NSString)
+
+        // This should hopefully cause the user function to get called
+        js.evaluateScript(jsText)
         
-        DispatchQueue.main.async {
-            self.webView = WebView()
-            self.webView.frameLoadDelegate = self
-            self.webView.mainFrame.loadHTMLString(self.html, baseURL: URL(string: "http://localhost"))
-        }
-    }
-    
-    public func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
-        guard let fields = webView.mainFrame.domDocument.getElementsByName("_STORED_") else {
-            result = .error
-            state = .finished
+        guard let str = loginStr else {
+            errorOut()
             return
         }
-        for i in 0..<fields.length {
-            let node = fields.item(i)!
-            guard let inputNode = node as? DOMHTMLInputElement,
-                let value = inputNode.value else {
-                continue
-            }
-            result = .result(value)
-        }
-        if result == nil {
-            result = .error
-        }
+        result = .result(str)
         state = .finished
+    }
+    
+    func errorOut() {
+        result = .error
+        state = .finished
+        return
+    }
+    
+    @objc func user(_ string: String) {
+        loginStr = string
     }
 }

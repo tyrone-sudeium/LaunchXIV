@@ -277,11 +277,11 @@ private struct FFXIVLogin {
                 return
             }
             let cookie = response.allHeaderFields["Set-Cookie"] as? String
-            let op = SidParseOperation(html: html)
+            let op = StoredParseOperation(html: html)
             let queue = OperationQueue()
             op.completionBlock = {
                 DispatchQueue.main.async {
-                    guard case let .some(SidParseResult.result(result)) = op.result else {
+                    guard case let .some(HTMLParseResult.result(result)) = op.result else {
                         completion(.error)
                         return
                     }

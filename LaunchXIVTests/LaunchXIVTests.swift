@@ -9,7 +9,7 @@
 import XCTest
 @testable import LaunchXIV
 
-let testhtml = """
+let testStoredHTML = """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang=en-GB>
 <head>
@@ -328,20 +328,167 @@ y bord 挿入場所 -->
 </html>
 """
 
+// Dear hackers: before you get too excited about the SID in the data below, you should know
+// it's just 56 characters worth of RANDOM data I generated. Have fun with it anyway!
+let testSIDHTML = """
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang=en-US>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>FINAL FANTASY XIV Launcher</title>
+
+
+<link rel="stylesheet" href="/oauth/content/css/mod_reborn_login.css?date=20160129" type="text/css" />
+<link rel="shortcut icon" href="/oauth/content/image/common/favicon.ico" />
+
+
+
+
+
+
+<script>
+<!--
+// -------------------------------------------------------------------
+// Event
+// -------------------------------------------------------------------
+var g_clickCheck = false;
+var g_eventElementName = '_event';
+function ctrEvent ( formName )
+{
+if (g_clickCheck)
+{
+//window.external.user('login=auth,ng,err,The data has already been sent.rnIf the screen still has not displayed after waiting a few moments, please refresh the page on your browser.');
+return;
+}
+
+if (formName == null || formName =='')
+formName = 'mainForm';
+document.forms [ formName ].submit();
+g_clickCheck = true;
+ctrStartClickCheckResetTimer();
+}
+
+function ctrEventAction ( formName , actionName)
+{
+if (g_clickCheck)
+{
+//window.external.user('login=auth,ng,err,The data has already been sent.rnIf the screen still has not displayed after waiting a few moments, please refresh the page on your browser.');
+return;
+}
+
+if (formName == null || formName =='')
+formName = 'mainForm';
+document.forms [ formName ].action = actionName;
+document.forms [ formName ].submit();
+g_clickCheck = true;
+ctrStartClickCheckResetTimer();
+}
+
+// -------------------------------------------------------------------
+// Reset Timer
+// -------------------------------------------------------------------
+var g_ctrClickCheckTimer;
+function ctrResetClickCheck() {
+g_clickCheck = false;
+window.clearTimeout(g_ctrClickCheckTimer);
+}
+function ctrStartClickCheckResetTimer() {
+g_ctrClickCheckTimer = window.setTimeout('ctrResetClickCheck()', 15*1000);
+}
+
+// -------------------------------------------------------------------
+// Get Key Code
+// -------------------------------------------------------------------
+function ctrGetKeyCode(event){
+var key;
+if(event.keyCode != 0) {
+key = event.keyCode;
+} else{
+key = event.charCode;
+}
+return key;
+}
+-->
+</script>
+
+
+
+
+<script type="text/javascript" src="/oauth/content/swk/ffxiv/swk.js"></script>
+
+</head>
+<body >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="login.send" method="post" name="mainForm">
+
+
+
+
+<script type="text/javascript">
+//<!--
+window.external.user("login=auth,ok,sid,fc39611bcdbb9d08b53b12783ca5c95e0e0b0b4ba76a8788cd46d2b8,terms,1,region,3,etmadd,0,playable,1,ps3pkg,0,maxex,2,product,1");
+//-->
+</script>
+
+
+</form>
+
+</body>
+</html>
+
+
+"""
+
 class LaunchXIVTests: XCTestCase {
-    func testSidParser() {
+    func testStoredParser() {
         let queue = OperationQueue()
-        let op = SidParseOperation(html: testhtml)
+        let op = StoredParseOperation(html: testStoredHTML)
         let expect = XCTestExpectation()
         expect.expectedFulfillmentCount = 1
         op.completionBlock = {
             XCTAssertNotNil(op.result)
-            XCTAssertNotEqual(op.result!, SidParseResult.error)
-            guard case let SidParseResult.result(res) = op.result! else {
+            XCTAssertNotEqual(op.result!, HTMLParseResult.error)
+            guard case let HTMLParseResult.result(res) = op.result! else {
                 XCTFail()
                 return
             }
             XCTAssertEqual(res, "a5f06e5f47798101ac62bce3c650e276ef1a9863d0266d77ea3b1f8b209a2283965a37cf4ae1e657abea6037d93d0a53908dde6c2b199dd4f27148d6dc37cb1c72cacc101db097e604776b201211af21abf5744fe8819f30e11a9b4b1ba80e1a5c83fa22842f00c9fcc43d0b31208e93909fda8298dff852ccd860bf72939f9552d08094b2c3872b4f941a1f2f73ca8776b68f87959aec89a2caabedb40b5da2574e7eec6cb2556c3b85a98f8df39460c68fccaa7d816806ea5fd4570776343e92be2ac2e9eb9e22d04a9872377aa3f7118422496faf33a2beabcfd8a465a181d431338023f27c9f16b63a0358c2811029c680c58670bb3189aaf66e5f0ef24dc1a5128ff6e564e9fe8f1fe89f9388f7175b20f785f1aeb030517e65ae4cdfa2047b3beea896ffa9122a6cbb59f9a58be92770c56353fac39c")
+            expect.fulfill()
+        }
+        queue.addOperation(op)
+        wait(for: [expect], timeout: 5.0)
+    }
+    
+    func testSidParser() {
+        let queue = OperationQueue()
+        let op = SidParseOperation(html: testSIDHTML)
+        let expect = XCTestExpectation()
+        expect.expectedFulfillmentCount = 1
+        op.completionBlock = {
+            XCTAssertNotNil(op.result)
+            XCTAssertNotEqual(op.result!, HTMLParseResult.error)
+            guard case let HTMLParseResult.result(res) = op.result! else {
+                XCTFail()
+                return
+            }
+            XCTAssertEqual(res, "login=auth,ok,sid,fc39611bcdbb9d08b53b12783ca5c95e0e0b0b4ba76a8788cd46d2b8,terms,1,region,3,etmadd,0,playable,1,ps3pkg,0,maxex,2,product,1")
             expect.fulfill()
         }
         queue.addOperation(op)

@@ -11,6 +11,10 @@
 		8B1104891F1CF57000C1CFFF /* PathSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B1104871F1CF57000C1CFFF /* PathSettingViewController.xib */; };
 		8B11048C1F1E0E2700C1CFFF /* LoginSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B11048A1F1E0E2700C1CFFF /* LoginSettingsViewController.swift */; };
 		8B11048D1F1E0E2700C1CFFF /* LoginSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B11048B1F1E0E2700C1CFFF /* LoginSettingsViewController.xib */; };
+		8B1296142045629700F638E1 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1296132045629700F638E1 /* LoadingViewController.swift */; };
+		8B129616204562AB00F638E1 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B129615204562AB00F638E1 /* LoadingViewController.xib */; };
+		8B1296182045673300F638E1 /* SidParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1296172045673300F638E1 /* SidParseOperation.swift */; };
+		8B12961A204567AD00F638E1 /* HTMLParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B129619204567AD00F638E1 /* HTMLParseOperation.swift */; };
 		8B4824601E76AB9E0072ED06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */; };
 		8B4824621E76AB9E0072ED06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B4824611E76AB9E0072ED06 /* Assets.xcassets */; };
 		8B4824651E76AB9E0072ED06 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4824631E76AB9E0072ED06 /* MainMenu.xib */; };
@@ -22,7 +26,7 @@
 		8B4824931E77EA4C0072ED06 /* Crypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248E1E77EA4C0072ED06 /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8B4824941E77EA4C0072ED06 /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248F1E77EA4C0072ED06 /* Locksmith.framework */; };
 		8B4824951E77EA4C0072ED06 /* Locksmith.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248F1E77EA4C0072ED06 /* Locksmith.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8B8A523E1F1F6338007E247D /* SidParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A523D1F1F6338007E247D /* SidParseOperation.swift */; };
+		8B8A523E1F1F6338007E247D /* StoredParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A523D1F1F6338007E247D /* StoredParseOperation.swift */; };
 		8B9CEA931F1F85D800CA9FAE /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */; };
 		8BEFF4001F1E13880031014A /* OGSwitch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF5D5071F1E1352000BA641 /* OGSwitch.framework */; };
 		8BEFF4011F1E13880031014A /* OGSwitch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF5D5071F1E1352000BA641 /* OGSwitch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -62,6 +66,10 @@
 		8B1104871F1CF57000C1CFFF /* PathSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PathSettingViewController.xib; sourceTree = "<group>"; };
 		8B11048A1F1E0E2700C1CFFF /* LoginSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSettingsViewController.swift; sourceTree = "<group>"; };
 		8B11048B1F1E0E2700C1CFFF /* LoginSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginSettingsViewController.xib; sourceTree = "<group>"; };
+		8B1296132045629700F638E1 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		8B129615204562AB00F638E1 /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
+		8B1296172045673300F638E1 /* SidParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidParseOperation.swift; sourceTree = "<group>"; };
+		8B129619204567AD00F638E1 /* HTMLParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLParseOperation.swift; sourceTree = "<group>"; };
 		8B48245C1E76AB9E0072ED06 /* LaunchXIV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchXIV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B4824611E76AB9E0072ED06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,7 +82,7 @@
 		8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
 		8B48248E1E77EA4C0072ED06 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/Mac/Crypto.framework; sourceTree = "<group>"; };
 		8B48248F1E77EA4C0072ED06 /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/Mac/Locksmith.framework; sourceTree = "<group>"; };
-		8B8A523D1F1F6338007E247D /* SidParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidParseOperation.swift; sourceTree = "<group>"; };
+		8B8A523D1F1F6338007E247D /* StoredParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredParseOperation.swift; sourceTree = "<group>"; };
 		8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		8BF5D5071F1E1352000BA641 /* OGSwitch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OGSwitch.framework; path = Carthage/Build/Mac/OGSwitch.framework; sourceTree = "<group>"; };
 		8BF7AFC2204404CE009D8B93 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
@@ -131,12 +139,16 @@
 				8BF7AFC2204404CE009D8B93 /* MainWindowController.swift */,
 				8BF7AFC3204404CE009D8B93 /* MainWindowController.xib */,
 				8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */,
+				8B1296132045629700F638E1 /* LoadingViewController.swift */,
+				8B129615204562AB00F638E1 /* LoadingViewController.xib */,
 				8B1104861F1CF57000C1CFFF /* PathSettingViewController.swift */,
 				8B1104871F1CF57000C1CFFF /* PathSettingViewController.xib */,
 				8B11048A1F1E0E2700C1CFFF /* LoginSettingsViewController.swift */,
 				8B11048B1F1E0E2700C1CFFF /* LoginSettingsViewController.xib */,
 				8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */,
-				8B8A523D1F1F6338007E247D /* SidParseOperation.swift */,
+				8B129619204567AD00F638E1 /* HTMLParseOperation.swift */,
+				8B8A523D1F1F6338007E247D /* StoredParseOperation.swift */,
+				8B1296172045673300F638E1 /* SidParseOperation.swift */,
 				8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */,
 				8B4824611E76AB9E0072ED06 /* Assets.xcassets */,
 				8B4824631E76AB9E0072ED06 /* MainMenu.xib */,
@@ -243,6 +255,7 @@
 				8B11048D1F1E0E2700C1CFFF /* LoginSettingsViewController.xib in Resources */,
 				8B4824621E76AB9E0072ED06 /* Assets.xcassets in Resources */,
 				8B4824651E76AB9E0072ED06 /* MainMenu.xib in Resources */,
+				8B129616204562AB00F638E1 /* LoadingViewController.xib in Resources */,
 				8B1104891F1CF57000C1CFFF /* PathSettingViewController.xib in Resources */,
 				8BF7AFC5204404CE009D8B93 /* MainWindowController.xib in Resources */,
 			);
@@ -264,8 +277,11 @@
 			files = (
 				8B11048C1F1E0E2700C1CFFF /* LoginSettingsViewController.swift in Sources */,
 				8BF7AFC4204404CE009D8B93 /* MainWindowController.swift in Sources */,
-				8B8A523E1F1F6338007E247D /* SidParseOperation.swift in Sources */,
+				8B8A523E1F1F6338007E247D /* StoredParseOperation.swift in Sources */,
+				8B1296142045629700F638E1 /* LoadingViewController.swift in Sources */,
+				8B12961A204567AD00F638E1 /* HTMLParseOperation.swift in Sources */,
 				8B1104881F1CF57000C1CFFF /* PathSettingViewController.swift in Sources */,
+				8B1296182045673300F638E1 /* SidParseOperation.swift in Sources */,
 				8B4824601E76AB9E0072ED06 /* AppDelegate.swift in Sources */,
 				8B9CEA931F1F85D800CA9FAE /* AsyncOperation.swift in Sources */,
 				8B48247B1E76AC630072ED06 /* FFXIVLoginServices.swift in Sources */,
