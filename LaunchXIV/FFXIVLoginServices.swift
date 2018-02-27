@@ -82,7 +82,20 @@ public struct FFXIVLoginCredentials: InternetPasswordSecureStorable {
         return FFXIVLoginCredentials(username: username, password: storedPassword)
     }
     
-
+    public func loginData(storedSID: String) -> Data {
+        var cmp = URLComponents()
+        var queryItems = [
+            URLQueryItem(name: "_STORED_", value: storedSID),
+            URLQueryItem(name: "sqexid", value: username),
+            URLQueryItem(name: "password", value: password)
+        ]
+        if let otp = oneTimePassword {
+            queryItems.append(URLQueryItem(name: "otppw", value: otp))
+        }
+        cmp.queryItems = queryItems
+        let str = cmp.percentEncodedQuery!
+        return str.data(using: .utf8)!
+    }
 }
 
 extension FFXIVLoginCredentials: ReadableSecureStorable {
@@ -105,7 +118,7 @@ public enum FFXIVLoginResult {
 }
 
 private enum FFXIVLoginPageData {
-    case success(storedSid: String)
+    case success(storedSid: String, cookie: String?)
     case error
 }
 
@@ -175,22 +188,17 @@ public struct FFXIVSettings {
     }
     
     public func login(completion: @escaping ((FFXIVLoginResult) -> Void)) {
-        guard let login = FFXIVLogin(settings: self) else {
+        guard let login = FFXIVLogin(settings: self), let credentials = credentials else {
             return
         }
-        login.getStoredSID() { result in
+        login.getStored() { result in
             switch result {
             case .error:
                 completion(.protocolError)
-            case .success(let storedSid):
-                self.checkCredentials(storedSid: storedSid, login: login, completion: completion)
+            case .success(let storedSid, let cookie):
+                login.getActualSID(storedSID: storedSid, cookie: cookie, credentials: credentials, completion: completion)
             }
         }
-    }
-    
-    private func checkCredentials(storedSid: String, login: FFXIVLogin, completion: ((FFXIVLoginResult) -> Void)) {
-        // TODO.
-        completion(.success(sid: storedSid))
     }
 }
 
@@ -204,6 +212,7 @@ private class FFXIVSSLDelegate: NSObject, URLSessionDelegate {
 
 private struct FFXIVLogin {
     static let userAgent = "SQEXAuthor/2.0.0(Windows XP; ja-jp; 3aed65f87c)"
+    static let authURL = URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/login.send")!
     
     static let loginHeaders = [
         "User-Agent": userAgent
@@ -211,9 +220,15 @@ private struct FFXIVLogin {
     
     static let authHeaders = [
         "User-Agent": userAgent,
-        "Cookie": "",
         "Content-Type": "application/x-www-form-urlencoded"
     ]
+    
+    static let sessionHeaders = [
+        "User-Agent": userAgent,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-Hash-Check": "enabled"
+    ]
+    
     
     static let versionHeaders = [
         "User-Agent": "FFXIV PATCH CLIENT"
@@ -221,6 +236,10 @@ private struct FFXIVLogin {
     
     var loginURL: URL {
         return URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn=\(settings.region)")!
+    }
+    
+    var sessionURL: URL {
+        return URL(string: "https://patch-gamever.ffxiv.com/http/win32/ffxivneo_release_game/\(app.gameVer)")!
     }
     
     let settings: FFXIVSettings
@@ -247,31 +266,13 @@ private struct FFXIVLogin {
 //        
 //    }
     
-    fileprivate func getStoredSID(completion: @escaping ((FFXIVLoginPageData) -> Void)) {
-        let session = URLSession(configuration: .default, delegate: sslDelegate, delegateQueue: nil)
-        let req = NSMutableURLRequest(url: loginURL)
-        for (hdr, val) in FFXIVLogin.loginHeaders {
-            req.addValue(val, forHTTPHeaderField: hdr)
-        }
-        let task = session.dataTask(with: req as URLRequest) { (data, resp, err) in
-            guard let response = resp as? HTTPURLResponse else {
+    fileprivate func getStored(completion: @escaping ((FFXIVLoginPageData) -> Void)) {
+        fetch(headers: FFXIVLogin.loginHeaders, url: loginURL, postBody: nil) { body, response in
+            guard let html = body else {
                 completion(.error)
                 return
             }
-            guard let data = data else {
-                completion(.error)
-                return
-            }
-            if response.statusCode != 200 || err != nil || data.count == 0 {
-                completion(.error)
-                return
-            }
-            
-            guard let html = String(data: data, encoding: .utf8) else {
-                completion(.error)
-                return
-            }
-            
+            let cookie = response.allHeaderFields["Set-Cookie"] as? String
             let op = SidParseOperation(html: html)
             let queue = OperationQueue()
             op.completionBlock = {
@@ -280,10 +281,78 @@ private struct FFXIVLogin {
                         completion(.error)
                         return
                     }
-                    completion(.success(storedSid: result))
+                    completion(.success(storedSid: result, cookie: cookie))
                 }
             }
             queue.addOperation(op)
+        }
+    }
+    
+    fileprivate func getTempSID(storedSID: String, cookie: String?, completion: @escaping ((FFXIVLoginResult) -> Void)) {
+        var headers = FFXIVLogin.authHeaders
+        if let cookie = cookie {
+            headers["Cookie"] = cookie
+        }
+        headers["Referer"] = loginURL.absoluteString
+        let postBody = settings.credentials!.loginData(storedSID: storedSID)
+        fetch(headers: headers, url: FFXIVLogin.authURL, postBody: postBody) { body, response in
+            guard let html = body else {
+                completion(.protocolError)
+                return
+            }
+            print("got temp sid data:\n\(html)")
+        }
+    }
+    
+    fileprivate func getFinalSID(tempSID: String, cookie: String?, completion: @escaping ((FFXIVLoginResult) -> Void)) {
+        var headers = FFXIVLogin.sessionHeaders
+        if let cookie = cookie {
+            headers["Cookie"] = cookie
+        }
+        headers["Referer"] = loginURL.absoluteString
+        var url = sessionURL
+        url = url.appendingPathComponent(tempSID)
+        let postBody = app.versionHash.data(using: .utf8)
+        fetch(headers: headers, url: url, postBody: postBody) { body, response in
+            guard let html = body else {
+                completion(.protocolError)
+                return
+            }
+            print("got final sid data:\n\(html)")
+            guard let finalSid = response.allHeaderFields["X-Patch-Unique-Id"] else {
+                completion(.protocolError)
+                return
+            }
+            print("got final sid:\n\(finalSid)")
+        }
+    }
+    
+    fileprivate func fetch(headers: [String: String], url: URL, postBody: Data?, completion: @escaping ((_ body: String?, _ response: HTTPURLResponse) -> Void)) {
+        let session = URLSession(configuration: .default, delegate: sslDelegate, delegateQueue: nil)
+        let req = NSMutableURLRequest(url: url)
+        for (hdr, val) in headers {
+            req.addValue(val, forHTTPHeaderField: hdr)
+        }
+        if let uploadedBody = postBody {
+            req.httpBody = uploadedBody
+            req.httpMethod = "POST"
+        }
+        let task = session.dataTask(with: req as URLRequest) { (data, resp, err) in
+            let response = resp as! HTTPURLResponse
+            guard let data = data else {
+                completion(nil, response)
+                return
+            }
+            if response.statusCode != 200 || err != nil || data.count == 0 {
+                completion(nil, response)
+                return
+            }
+            
+            guard let html = String(data: data, encoding: .utf8) else {
+                completion(nil, response)
+                return
+            }
+            completion(html, response)
         }
         task.resume()
     }
@@ -341,7 +410,7 @@ private struct FFXIVApp {
         let launcher = FFXIVApp.sha1(file: launcherExeURL)
         let updater = FFXIVApp.sha1(file: updaterExeURL)
         
-        return "\(boot),\(launcher),\(updater)"
+        return "ffxivboot.exe/\(boot),ffxivlauncher.exe/\(launcher),ffxivupdater.exe/\(updater)"
     }
     
     private static func sha1(file: URL) -> String {
