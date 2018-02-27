@@ -188,7 +188,11 @@ public struct FFXIVSettings {
     }
     
     public func login(completion: @escaping ((FFXIVLoginResult) -> Void)) {
-        guard let login = FFXIVLogin(settings: self), let credentials = credentials else {
+        if credentials == nil {
+            completion(.incorrectCredentials)
+            return
+        }
+        guard let login = FFXIVLogin(settings: self) else {
             return
         }
         login.getStored() { result in
@@ -196,7 +200,7 @@ public struct FFXIVSettings {
             case .error:
                 completion(.protocolError)
             case .success(let storedSid, let cookie):
-                login.getActualSID(storedSID: storedSid, cookie: cookie, credentials: credentials, completion: completion)
+                login.getTempSID(storedSID: storedSid, cookie: cookie, completion: completion)
             }
         }
     }
