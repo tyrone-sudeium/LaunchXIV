@@ -13,7 +13,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWC: MainWindowController?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let settings = FFXIVSettings.storedSettings()
+        var settings: FFXIVSettings
+        if NSEvent.modifierFlags.contains(.option) {
+            settings = FFXIVSettings()
+        } else {
+            settings = FFXIVSettings.storedSettings()
+        }
         showMainWindow(settings: settings)
     }
 

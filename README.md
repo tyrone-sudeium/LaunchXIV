@@ -43,6 +43,9 @@ If you run the launcher and the Square Enix servers reject your credentials,
 the LaunchXIV will trash your saved password and show the settings page again.
 Here you will be offered a chance to update your password.
 
+You can also hold down your ⌥ key (option / alt) while the app starts up and
+it will reset all settings.
+
 ## What does this do, exactly?
 
 It generates a login session with the Square Enix servers the same way the
