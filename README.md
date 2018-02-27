@@ -35,7 +35,7 @@ Something like this:
 
 ## When will this be working?
 
-When I finish it.
+When I finish it. Most of the hard stuff is now done.
 
 ## How do I change the password?
 
