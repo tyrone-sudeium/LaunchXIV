@@ -20,9 +20,9 @@ public enum FFXIVExpansionLevel: UInt32 {
 
 public enum FFXIVRegion: UInt32 {
     case japanese = 0
-    case english = 1
-    case french = 2
-    case german = 3
+    case english = 3
+    case french = 1
+    case german = 2
     
     static func guessFromLocale() -> FFXIVRegion {
         switch NSLocale.current.languageCode {
@@ -37,6 +37,44 @@ public enum FFXIVRegion: UInt32 {
         default:
             return .english
         }
+    }
+}
+
+public struct FFXIVServerLoginResponse {
+    public let authOk: Bool
+    public let sid: String?
+    public let terms: UInt32?
+    public let region: UInt32?
+    public let etmAdd: UInt32? // ?? wat dis? maintenance maybe?
+    public let playable: UInt32?
+    public let ps3Package: UInt32?
+    public let maxEx: UInt32?
+    public let product: UInt32?
+    
+    public init?(string: String) {
+        guard let loginVal = string.split(separator: "=").last else {
+            return nil
+        }
+        let pairsArr = loginVal.split(separator: ",", maxSplits: Int.max, omittingEmptySubsequences: true)
+        if pairsArr.count % 2 != 0 {
+            return nil
+        }
+        var pairs = [String: String]()
+        for i in stride(from: 0, to: pairsArr.count, by: 2) {
+            pairs[String(pairsArr[i])] = String(pairsArr[i+1])
+        }
+        guard let auth = pairs["auth"] else {
+            return nil
+        }
+        authOk = auth == "ok"
+        sid = pairs["sid"]
+        terms = pairs["terms"] != nil ? UInt32(pairs["terms"]!) : nil
+        region = pairs["region"] != nil ? UInt32(pairs["region"]!) : nil
+        etmAdd = pairs["etmadd"] != nil ? UInt32(pairs["etmadd"]!) : nil
+        playable = pairs["playable"] != nil ? UInt32(pairs["playable"]!) : nil
+        ps3Package = pairs["ps3pkg"] != nil ? UInt32(pairs["ps3pkg"]!) : nil
+        maxEx = pairs["maxex"] != nil ? UInt32(pairs["maxex"]!) : nil
+        product = pairs["product"] != nil ? UInt32(pairs["product"]!) : nil
     }
 }
 
@@ -111,7 +149,7 @@ extension FFXIVLoginCredentials: CreateableSecureStorable {
 }
 
 public enum FFXIVLoginResult {
-    case success(sid: String)
+    case success(sid: String, updatedSettings: FFXIVSettings)
     case clientUpdate
     case incorrectCredentials
     case protocolError
@@ -188,6 +226,7 @@ public struct FFXIVSettings {
     }
     
     public func login(completion: @escaping ((FFXIVLoginResult) -> Void)) {
+        print(FFXIVApp(appPath!).versionHash)
         if credentials == nil {
             completion(.incorrectCredentials)
             return
@@ -202,6 +241,15 @@ public struct FFXIVSettings {
             case .success(let storedSid, let cookie):
                 login.getTempSID(storedSID: storedSid, cookie: cookie, completion: completion)
             }
+        }
+    }
+    
+    public mutating func update(from response: FFXIVServerLoginResponse) {
+        if let rgnInt = response.region, let rgn = FFXIVRegion(rawValue: rgnInt) {
+            region = rgn
+        }
+        if let expInt = response.maxEx, let expId = FFXIVExpansionLevel(rawValue: expInt) {
+            expansionId = expId
         }
     }
 }
@@ -239,7 +287,7 @@ private struct FFXIVLogin {
     ]
     
     var loginURL: URL {
-        return URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn=\(settings.region)")!
+        return URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn=\(settings.region.rawValue)")!
     }
     
     var sessionURL: URL {
@@ -304,11 +352,37 @@ private struct FFXIVLogin {
                 completion(.protocolError)
                 return
             }
-            print("got temp sid data:\n\(html)")
+            let cookie = response.allHeaderFields["Set-Cookie"] as? String
+            let op = SidParseOperation(html: html)
+            let queue = OperationQueue()
+            op.completionBlock = {
+                DispatchQueue.main.async {
+                    guard case let .some(HTMLParseResult.result(result)) = op.result else {
+                        completion(.protocolError)
+                        return
+                    }
+                    guard let parsedResult = FFXIVServerLoginResponse(string: result) else {
+                        completion(.protocolError)
+                        return
+                    }
+                    if !parsedResult.authOk {
+                        completion(.incorrectCredentials)
+                        return
+                    }
+                    guard let sid = parsedResult.sid else {
+                        completion(.protocolError)
+                        return
+                    }
+                    var updatedSettings = self.settings
+                    updatedSettings.update(from: parsedResult)
+                    self.getFinalSID(tempSID: sid, cookie: cookie, updatedSettings: updatedSettings, completion: completion)
+                }
+            }
+            queue.addOperation(op)
         }
     }
     
-    fileprivate func getFinalSID(tempSID: String, cookie: String?, completion: @escaping ((FFXIVLoginResult) -> Void)) {
+    fileprivate func getFinalSID(tempSID: String, cookie: String?, updatedSettings: FFXIVSettings, completion: @escaping ((FFXIVLoginResult) -> Void)) {
         var headers = FFXIVLogin.sessionHeaders
         if let cookie = cookie {
             headers["Cookie"] = cookie
@@ -318,16 +392,17 @@ private struct FFXIVLogin {
         url = url.appendingPathComponent(tempSID)
         let postBody = app.versionHash.data(using: .utf8)
         fetch(headers: headers, url: url, postBody: postBody) { body, response in
-            guard let html = body else {
+            if let unexpectedResponseBody = body, unexpectedResponseBody.count > 0 {
                 completion(.protocolError)
                 return
             }
-            print("got final sid data:\n\(html)")
-            guard let finalSid = response.allHeaderFields["X-Patch-Unique-Id"] else {
+            print("got final sid data")
+            guard let finalSid = response.allHeaderFields["X-Patch-Unique-Id"] as? String else {
                 completion(.protocolError)
                 return
             }
             print("got final sid:\n\(finalSid)")
+            completion(.success(sid: finalSid, updatedSettings: updatedSettings))
         }
     }
     
@@ -393,7 +468,7 @@ private struct FFXIVApp {
             .appendingPathComponent("MacOS")
             .appendingPathComponent("FINALFANTASYXIV")
         
-        let game = appURL.appendingPathComponent("game")
+        let game = ffxiv.appendingPathComponent("game")
         dx9URL = game.appendingPathComponent("ffxiv.exe")
         dx11URL = game.appendingPathComponent("ffxiv_dx11.exe")
         gameVersionURL = game.appendingPathComponent("ffxivgame.ver")
@@ -410,22 +485,27 @@ private struct FFXIVApp {
     }
     
     var versionHash: String {
-        let boot = FFXIVApp.sha1(file: bootExeURL)
-        let launcher = FFXIVApp.sha1(file: launcherExeURL)
-        let updater = FFXIVApp.sha1(file: updaterExeURL)
-        
-        return "ffxivboot.exe/\(boot),ffxivlauncher.exe/\(launcher),ffxivupdater.exe/\(updater)"
+        let segments = [
+            FFXIVApp.hashSegment(file: bootExeURL),
+            FFXIVApp.hashSegment(file: launcherExeURL),
+            FFXIVApp.hashSegment(file: updaterExeURL)
+        ]
+        return segments.joined(separator: ",")
     }
     
-    private static func sha1(file: URL) -> String {
+    private static func hashSegment(file: URL) -> String {
+        let (hash, len) = FFXIVApp.sha1(file: file)
+        return "\(file.lastPathComponent)/\(len)/\(hash)"
+    }
+    
+    private static func sha1(file: URL) -> (String, Int) {
         let data = try! Data.init(contentsOf: file)
         var string = ""
-        data.sha1.enumerateBytes { pointer, count, _ in
-            for i in 0..<count {
-                string += String(format: "%02x", pointer[i])
-            }
+        var sha1Iterator = data.sha1.makeIterator()
+        while let byte = sha1Iterator.next() {
+            string += String(format: "%02x", byte)
         }
-        return string
+        return (string, data.count)
     }
 }
 
