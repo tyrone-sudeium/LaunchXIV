@@ -7,17 +7,20 @@
 //
 
 import Cocoa
-import OGSwitch
+import GNJSwitchControl
 
 class LoginSettingsViewController: NSViewController, MainWindowContentViewController, NSTextFieldDelegate {
     var navigator: Navigator!
     var settings: FFXIVSettings!
     @IBOutlet var usernameField: NSTextField!
     @IBOutlet var passwordField: NSSecureTextField!
-    @IBOutlet var otpSwitch: OGSwitch!
+    @IBOutlet var otpSwitch: GNJSwitchControl!
     
     override func viewDidAppear() {
         super.viewDidAppear()
+        
+        usernameField.stringValue = settings.credentials?.username ?? ""
+        otpSwitch.state = settings.usesOneTimePassword
         
         usernameField.selectText(nil)
         usernameField.becomeFirstResponder()
@@ -35,6 +38,10 @@ class LoginSettingsViewController: NSViewController, MainWindowContentViewContro
         proceed()
     }
     
+    @IBAction func otpAction(_ sender: Any) {
+        updateSettings()
+    }
+    
     func proceed() {
         if usernameField.stringValue.isEmpty {
             return
@@ -43,7 +50,7 @@ class LoginSettingsViewController: NSViewController, MainWindowContentViewContro
             return
         }
         updateSettings()
-        if otpSwitch.isOn {
+        if otpSwitch != nil {
             navigator.goToOneTimePassword()
         } else {
             navigator.goToLoading()
@@ -52,6 +59,7 @@ class LoginSettingsViewController: NSViewController, MainWindowContentViewContro
     
     func updateSettings() {
         settings.credentials = FFXIVLoginCredentials(username: usernameField.stringValue, password: passwordField.stringValue)
+        settings.usesOneTimePassword = otpSwitch.state
     }
     
 }

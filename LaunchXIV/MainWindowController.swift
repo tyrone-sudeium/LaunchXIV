@@ -120,4 +120,11 @@ class MainWindowController: NSWindowController, Navigator {
         changeState(newState: .loading, animated: true)
     }
     
+    func saveSettings() {
+        // Retrieve latest settings from the current screen
+        if let settings = contentVC?.settings {
+            settings.serialize()
+        }
+    }
+    
 }

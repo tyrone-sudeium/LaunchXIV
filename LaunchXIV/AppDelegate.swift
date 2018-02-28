@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        mainWC?.settings.serialize()
+        mainWC?.saveSettings()
         return .terminateNow
     }
 }

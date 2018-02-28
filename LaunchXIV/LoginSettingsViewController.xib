@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
@@ -18,11 +19,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view wantsLayer="YES" id="CtR-E9-n5I">
-            <rect key="frame" x="0.0" y="0.0" width="444" height="195"/>
+            <rect key="frame" x="0.0" y="0.0" width="444" height="207"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5AR-8L-sTB">
-                    <rect key="frame" x="22" y="139" width="400" height="36"/>
+                    <rect key="frame" x="22" y="151" width="400" height="36"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" focusRingType="none" placeholderString="Username" usesSingleLineMode="YES" id="zaZ-Zm-8ja">
                         <font key="font" metaFont="systemLight" size="30"/>
@@ -35,7 +36,7 @@
                     </connections>
                 </textField>
                 <secureTextField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o8s-7Z-z2n">
-                    <rect key="frame" x="22" y="83" width="400" height="36"/>
+                    <rect key="frame" x="22" y="95" width="400" height="36"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" focusRingType="none" placeholderString="Password" usesSingleLineMode="YES" id="uYE-Ay-Nbf">
                         <font key="font" metaFont="systemLight" size="30"/>
@@ -50,21 +51,8 @@
                         <outlet property="nextKeyView" destination="5AR-8L-sTB" id="wj9-VH-9md"/>
                     </connections>
                 </secureTextField>
-                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zcR-xT-O3R" customClass="OGSwitch" customModule="OGSwitch">
-                    <rect key="frame" x="20" y="20" width="64" height="43"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </customView>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e2s-qz-gdF">
-                    <rect key="frame" x="90" y="30" width="267" height="24"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Use one-time password" id="KtM-iH-sIO">
-                        <font key="font" metaFont="systemLight" size="20"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lo9-Lq-I7z">
-                    <rect key="frame" x="308" y="24" width="122" height="32"/>
+                    <rect key="frame" x="308" y="13" width="122" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QXS-Xe-YG0">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -74,8 +62,40 @@
                         <action selector="nextButtonAction:" target="-2" id="RlK-Gg-MG5"/>
                     </connections>
                 </button>
+                <box fixedFrame="YES" boxType="custom" borderType="none" cornerRadius="6" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="QXU-yn-941">
+                    <rect key="frame" x="24" y="20" width="252" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <view key="contentView" ambiguous="YES" id="8UI-Rf-LdM">
+                        <rect key="frame" x="0.0" y="0.0" width="252" height="55"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zcR-xT-O3R" customClass="GNJSwitchControl" customModule="GNJSwitchControl">
+                                <rect key="frame" x="183" y="18" width="61" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                        <color key="value" red="0.5" green="1" blue="0.53094393337031565" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="otpAction:" target="-2" id="CNY-16-DsE"/>
+                                </connections>
+                            </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e2s-qz-gdF">
+                                <rect key="frame" x="6" y="20" width="151" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Use one-time password" id="KtM-iH-sIO">
+                                    <font key="font" metaFont="systemMedium" size="13"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <color key="fillColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                </box>
             </subviews>
-            <point key="canvasLocation" x="111" y="82.5"/>
+            <point key="canvasLocation" x="111" y="88.5"/>
         </view>
     </objects>
 </document>

@@ -39,9 +39,11 @@ Thumbs.db
 *~.nib
 build/
 .xcodeproj/ !*.xcodeproj/project.pbxproj
-*.xcuserdatad
+*.xcuserdatad/
 xcuserdatad
 *.xccheckout
+LaunchXIV.xcodeproj/xcuserdata
+
 
 # RubyMotion
 .repl_history
@@ -59,3 +61,4 @@ nbproject
 *.sw[po]
 .eprj
 Carthage
+
