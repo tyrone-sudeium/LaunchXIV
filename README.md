@@ -23,6 +23,14 @@ If you can't be bothered and feel like you can trust me, a complete stranger
 on the internet implicitly, then go ahead and download the binary. The latest
 stable version is available by clicking the Releases link above.
 
+# Building / Compiling
+
+* Clone this repo (obviously).
+* Install Xcode 9.2.
+* Install Carthage. Consider `brew install carthage`.
+* Run `carthage update` in the repo root.
+* Open `LaunchXIV.xcodeproj` in Xcode. Build & Run.
+
 # FAQ
 
 ## What does it look like?
