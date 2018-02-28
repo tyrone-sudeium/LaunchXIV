@@ -221,6 +221,13 @@ public struct FFXIVSettings {
         storage.set(appPath?.path, forKey: "appPath")
         storage.set(region.rawValue, forKey: "region")
         storage.synchronize()
+        if let creds = credentials {
+            do {
+                try creds.createInSecureStore()
+            } catch (let err) {
+                print(err)
+            }
+        }
     }
     
     public func login(completion: @escaping ((FFXIVLoginResult) -> Void)) {
