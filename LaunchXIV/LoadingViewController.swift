@@ -36,6 +36,7 @@ class LoadingViewController: NSViewController, MainWindowContentViewController {
                 }
             default:
                 DispatchQueue.main.async {
+                    try? self.settings.credentials!.deleteFromSecureStore()
                     self.navigator.goToLoginSettings()
                 }
             }

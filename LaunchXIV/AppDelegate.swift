@@ -58,6 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             default:
                 DispatchQueue.main.async {
+                    try? settings.credentials!.deleteFromSecureStore()
                     var updatedSettings = settings
                     updatedSettings.credentials = nil
                     self.mainWC?.settings = updatedSettings
