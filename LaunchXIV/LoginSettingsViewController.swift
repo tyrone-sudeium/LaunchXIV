@@ -50,7 +50,7 @@ class LoginSettingsViewController: NSViewController, MainWindowContentViewContro
             return
         }
         updateSettings()
-        if otpSwitch != nil {
+        if otpSwitch.state {
             navigator.goToOneTimePassword()
         } else {
             navigator.goToLoading()

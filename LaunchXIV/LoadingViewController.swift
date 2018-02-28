@@ -12,43 +12,45 @@ class LoadingViewController: NSViewController, MainWindowContentViewController {
     var navigator: Navigator!
     var settings: FFXIVSettings!
     
+    @IBOutlet var loadingSpinner: NSProgressIndicator!
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        loadingSpinner.startAnimation(self)
+    }
+    
     override func viewDidAppear() {
         super.viewDidAppear()
         doLogin()
     }
     
     func doLogin() {
-        settings.login() { result in
-            DispatchQueue.main.async {
-                self.handleResult(result: result)
+        let queue = OperationQueue()
+        let op = LoginOperation(settings: settings)
+        op.completionBlock = {
+            switch op.loginResult {
+            case .success(let sid, let updatedSettings)?:
+                self.settings = updatedSettings
+                DispatchQueue.main.async {
+                    self.startGame(sid: sid)
+                }
+            default:
+                DispatchQueue.main.async {
+                    self.navigator.goToLoginSettings()
+                }
             }
         }
+        queue.addOperation(op)
     }
     
-    func handleResult(result: FFXIVLoginResult) {
-        switch result {
-        case .protocolError:
-            let alert = NSAlert()
-            alert.addButton(withTitle: "Ok")
-            alert.alertStyle = .critical
-            alert.messageText = "Login system error"
-            alert.informativeText = "The login servers did not present the login challenge the way we were expecting. " +
-                "It may have changed on the server. Please check for an update to LaunchXIV to fix this. In the meantime " +
-            "please use the default launcher."
-            alert.runModal()
-            exit(0)
-        case .incorrectCredentials:
-            break
-        case .clientUpdate:
-            let alert = NSAlert()
-            alert.addButton(withTitle: "Ok")
-            alert.alertStyle = .critical
-            alert.messageText = "Final Fantasy XIV Needs Updating!"
-            alert.informativeText = "LaunchXIV cannot patch Final Fantasy XIV. Please use the standard launcher to patch."
-            alert.runModal()
-            exit(0)
-        case .success(let sid):
-            print("sid = \(sid)")
+    func startGame(sid: String) {
+        let queue = OperationQueue()
+        let op = StartGameOperation(settings: settings, sid: sid)
+        op.completionBlock = {
+            DispatchQueue.main.async {
+                NSApp.terminate(nil)
+            }
         }
+        queue.addOperation(op)
     }
 }

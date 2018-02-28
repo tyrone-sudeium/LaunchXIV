@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LoadingViewController" customModule="LaunchXIV" customModuleProvider="target">
             <connections>
+                <outlet property="loadingSpinner" destination="eaD-vO-qxY" id="nNP-32-BEd"/>
                 <outlet property="view" destination="VSM-wl-jya" id="U8e-0b-jDl"/>
             </connections>
         </customObject>
@@ -19,7 +20,7 @@
             <subviews>
                 <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="eaD-vO-qxY">
                     <rect key="frame" x="206" y="28" width="32" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </progressIndicator>
             </subviews>
             <point key="canvasLocation" x="121" y="62"/>

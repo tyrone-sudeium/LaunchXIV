@@ -122,14 +122,12 @@ public struct FFXIVLoginCredentials: InternetPasswordSecureStorable {
     
     public func loginData(storedSID: String) -> Data {
         var cmp = URLComponents()
-        var queryItems = [
+        let queryItems = [
             URLQueryItem(name: "_STORED_", value: storedSID),
             URLQueryItem(name: "sqexid", value: username),
-            URLQueryItem(name: "password", value: password)
+            URLQueryItem(name: "password", value: password),
+            URLQueryItem(name: "otppw", value: oneTimePassword ?? "")
         ]
-        if let otp = oneTimePassword {
-            queryItems.append(URLQueryItem(name: "otppw", value: otp))
-        }
         cmp.queryItems = queryItems
         let str = cmp.percentEncodedQuery!
         return str.data(using: .utf8)!
@@ -396,12 +394,10 @@ private struct FFXIVLogin {
                 completion(.protocolError)
                 return
             }
-            print("got final sid data")
             guard let finalSid = response.allHeaderFields["X-Patch-Unique-Id"] as? String else {
                 completion(.protocolError)
                 return
             }
-            print("got final sid:\n\(finalSid)")
             completion(.success(sid: finalSid, updatedSettings: updatedSettings))
         }
     }
@@ -437,7 +433,7 @@ private struct FFXIVLogin {
     }
 }
 
-private struct FFXIVApp {
+public struct FFXIVApp {
     let appURL: URL
     let bootExeURL: URL
     let launcherVersionURL: URL
