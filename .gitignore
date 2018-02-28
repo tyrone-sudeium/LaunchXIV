@@ -37,28 +37,16 @@ Thumbs.db
 
 *.swp
 *~.nib
-build/
 .xcodeproj/ !*.xcodeproj/project.pbxproj
 *.xcuserdatad/
 xcuserdatad
 *.xccheckout
 LaunchXIV.xcodeproj/xcuserdata
 
-
-# RubyMotion
-.repl_history
-build
-.build*
-build-*
-tags
-*.nib
-*.momd
-*.storyboardc
-nbproject
-.redcar
 #*#
 *~
 *.sw[po]
 .eprj
 Carthage
-
+Build/*
+!Build/MakeDMG.sh
