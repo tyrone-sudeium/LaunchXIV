@@ -85,3 +85,46 @@ No, it only works if your game client is completely up to date, with no patches
 available for download. If you need to register your account, or patch the
 game, or otherwise do anything other than just log in and launch, you will need
 to use the default launcher.
+
+## I'm a developer. What cool shit is there to see?
+
+Glad you asked!
+
+### General Anatomy of a macOS App
+
+If you've mostly only done iOS development or server-side Swift, and you're
+curious what Mac apps are like, the codebase is a fairly simple, general
+example of what to expect.
+
+### macOS Drag and Drop
+
+The drag and drop mechanism in macOS is old, arcane, poorly documented and
+unintuitive. If you're curious about how it works, and want a simple, working
+example, check out
+[`PathSettingViewController.swift`](LaunchXIV/PathSettingViewController.swift)
+for an `NSView` subclass that provides the drag and drop support.
+
+### JavaScript-to-Swift bridging
+
+The response from the login web view is a JavaScript script which executes
+`window.external.user(str)` where `str` is the login response data. This could
+probably be parsed out manually by hand, or with a regular expression, but
+macOS has a perfectly good JavaScript interpreter built in, so why not just
+execute it?
+
+In order to get the data out, we need to define `window.external` on the global
+JS object, and because we need the string back in Swift, the `external` object
+and the `user` function should really be a Swift object and Swift method
+respectively.
+
+The [`SidParseOperation.swift`](LaunchXIV/SidParseOperation.swift)
+contains an example of this bridging.
+
+### `NSOperation` usage
+
+If you've ever been curious about `NSOperation` but were too shy to ask, check
+out [`AsyncOperation.swift`](LaunchXIV/AsyncOperation.swift) for
+a really lightweight, useful `NSOperation` base subclass, which makes a state
+machine that automatically integrates with the `isFinished` and `isExecuting`
+infrastructure that `NSOperation`s need.
+
