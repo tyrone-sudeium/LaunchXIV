@@ -1,7 +1,8 @@
 # LaunchXIV - A Better Launcher for Final Fantasy XIV
 
-This is a custom launcher for the the Mac version of Final Fantasy XIV. It is
-currently incomplete and not working, but watch this space for updates.
+This is a custom launcher for the the Mac version of Final Fantasy XIV. It's
+barebones and probably full of a lot of bugs but it should more or less do
+what it says on the tin.
 
 Features:
 
@@ -25,6 +26,10 @@ stable version is available by clicking the Releases link above.
 
 # Building / Compiling
 
+> NOTE: You will probably need to change the app's bundle ID and sign in with
+> your own Apple Developer account if you want the keychain stuff to work
+> properly.
+
 * Clone this repo (obviously).
 * Install Xcode 9.2.
 * Install Carthage. Consider `brew install carthage`.
@@ -43,7 +48,7 @@ Something like this:
 
 ## When will this be working?
 
-When I finish it. Most of the hard stuff is now done.
+It works right now!
 
 ## How do I change the password?
 
