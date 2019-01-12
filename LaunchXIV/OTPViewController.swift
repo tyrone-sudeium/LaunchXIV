@@ -24,4 +24,8 @@ class OTPViewController: NSViewController, MainWindowContentViewController, NSTe
         settings.credentials?.oneTimePassword = otpField.stringValue
         navigator.goToLoading()
     }
+
+    override func viewDidAppear() {
+        otpField.becomeFirstResponder()
+    }
 }
