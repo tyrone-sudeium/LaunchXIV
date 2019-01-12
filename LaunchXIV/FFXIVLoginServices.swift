@@ -443,9 +443,12 @@ private struct FFXIVLogin {
 public struct FFXIVApp {
     let appURL: URL
     let bootExeURL: URL
+    let bootExe64URL: URL
     let launcherVersionURL: URL
     let launcherExeURL: URL
+    let launcherExe64URL: URL
     let updaterExeURL: URL
+    let updaterExe64URL: URL
     let ciderURL: URL
     let dx9URL: URL
     let dx11URL: URL
@@ -462,10 +465,13 @@ public struct FFXIVApp {
         
         let boot = ffxiv.appendingPathComponent("boot")
         bootExeURL = boot.appendingPathComponent("ffxivboot.exe")
+        bootExe64URL = boot.appendingPathComponent("ffxivboot64.exe")
         launcherVersionURL = boot.appendingPathComponent("ffxivgame.ver")
         launcherExeURL = boot.appendingPathComponent("ffxivlauncher.exe")
+        launcherExe64URL = boot.appendingPathComponent("ffxivlauncher64.exe")
         updaterExeURL = boot.appendingPathComponent("ffxivupdater.exe")
-        
+        updaterExe64URL = boot.appendingPathComponent("ffxivupdater64.exe")
+
         ciderURL = appURL
             .appendingPathComponent("Contents")
             .appendingPathComponent("MacOS")
@@ -490,8 +496,11 @@ public struct FFXIVApp {
     var versionHash: String {
         let segments = [
             FFXIVApp.hashSegment(file: bootExeURL),
+            FFXIVApp.hashSegment(file: bootExe64URL),
             FFXIVApp.hashSegment(file: launcherExeURL),
-            FFXIVApp.hashSegment(file: updaterExeURL)
+            FFXIVApp.hashSegment(file: launcherExe64URL),
+            FFXIVApp.hashSegment(file: updaterExeURL),
+            FFXIVApp.hashSegment(file: updaterExe64URL),
         ]
         return segments.joined(separator: ",")
     }

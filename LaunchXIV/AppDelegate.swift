@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func startApplication(settings: FFXIVSettings) {
-        mainWC = MainWindowController(windowNibName: NSNib.Name("MainWindowController"))
+        mainWC = MainWindowController(windowNibName: "MainWindowController")
         mainWC?.settings = settings
         if mainWC?.initialState() == .loading {
             // All settings are good to go, attempt to autologin

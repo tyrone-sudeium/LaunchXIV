@@ -33,7 +33,7 @@ class PathDragDropView: NSView {
     
     func pathFrom(dragInfo: NSDraggingInfo) -> URL? {
         let filenamesType = NSPasteboard.PasteboardType("NSFilenamesPboardType")
-        let pboard = dragInfo.draggingPasteboard()
+        let pboard = dragInfo.draggingPasteboard
         guard let files = pboard.propertyList(forType: filenamesType) as? [String] else {
             return nil
         }
@@ -116,7 +116,7 @@ class PathSettingViewController: NSViewController, MainWindowContentViewControll
             // Render the placeholder
             topLabel.stringValue = "Choose Final Fantasy XIV.app to begin"
             imageView.imageFrameStyle = .none
-            imageView.image = NSImage(named: NSImage.Name("DragSymbol"))
+            imageView.image = NSImage(named: "DragSymbol")
         }
     }
     

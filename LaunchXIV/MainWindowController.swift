@@ -18,16 +18,17 @@ protocol Navigator {
 protocol MainWindowContentViewController {
     var settings: FFXIVSettings! { get set }
     var navigator: Navigator! { get set }
-    var view: NSView { get }
 }
 
 typealias ContentViewController = NSViewController & MainWindowContentViewController
 
 class MainWindowController: NSWindowController, Navigator {
     @IBOutlet var contentView: NSView!
+    @IBOutlet var toolbar: NSToolbar!
+    @IBOutlet var backToolbarItem: NSToolbarItem!
     var settings: FFXIVSettings!
     
-    enum State {
+    enum State: Int {
         case pathSettings
         case loginSettings
         case oneTimePassword
@@ -36,14 +37,13 @@ class MainWindowController: NSWindowController, Navigator {
         private func loadViewController() -> ContentViewController {
             switch (self) {
             case .pathSettings:
-                return PathSettingViewController(nibName: NSNib.Name("PathSettingViewController"), bundle: Bundle.main)
+                return PathSettingViewController(nibName: "PathSettingViewController", bundle: Bundle.main)
             case .loginSettings:
-                return LoginSettingsViewController(nibName: NSNib.Name("LoginSettingsViewController"), bundle: Bundle.main)
+                return LoginSettingsViewController(nibName: "LoginSettingsViewController", bundle: Bundle.main)
             case .oneTimePassword:
-                // TODO: crashy times
-                return NSViewController() as! ContentViewController
+                return OTPViewController(nibName: "OTPViewController", bundle: Bundle.main)
             case .loading:
-                return LoadingViewController(nibName: NSNib.Name("LoadingViewController"), bundle: Bundle.main)
+                return LoadingViewController(nibName: "LoadingViewController", bundle: Bundle.main)
             }
         }
         
@@ -52,6 +52,20 @@ class MainWindowController: NSWindowController, Navigator {
             vc.settings = settings
             vc.navigator = navigator
             return vc
+        }
+        
+        func next() -> State? {
+            if let next = State(rawValue: self.rawValue + 1) {
+                return next
+            }
+            return nil
+        }
+        
+        func previous() -> State? {
+            if let prev = State(rawValue: self.rawValue - 1) {
+                return prev
+            }
+            return nil
         }
     }
 
@@ -84,12 +98,15 @@ class MainWindowController: NSWindowController, Navigator {
 
     func changeState(newState: State, animated: Bool) {
         state = newState
+        
+        backToolbarItem.isEnabled = state != .pathSettings
+        
         if let oldVC = contentVC {
             // Pull the settings out of the old and pass to the new
             settings = oldVC.settings
             
             oldVC.view.removeFromSuperview()
-            oldVC.removeFromParentViewController()
+            oldVC.removeFromParent()
         }
         
         let newVC = newState.viewController(settings: settings, navigator: self)
@@ -119,7 +136,13 @@ class MainWindowController: NSWindowController, Navigator {
     func goToLoading() {
         changeState(newState: .loading, animated: true)
     }
-    
+
+    @IBAction func goBack(_ sender: Any) {
+        if let newState = state.previous() {
+            changeState(newState: newState, animated: true)
+        }
+    }
+
     func saveSettings() {
         // Retrieve latest settings from the current screen
         if let settings = contentVC?.settings {

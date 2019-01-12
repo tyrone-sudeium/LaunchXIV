@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B0297AB21E8CA5D0060C300 /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0297AA21E8CA5D0060C300 /* OTPViewController.swift */; };
+		8B0297AD21E8CA6D0060C300 /* OTPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B0297AC21E8CA6D0060C300 /* OTPViewController.xib */; };
 		8B1104881F1CF57000C1CFFF /* PathSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1104861F1CF57000C1CFFF /* PathSettingViewController.swift */; };
 		8B1104891F1CF57000C1CFFF /* PathSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B1104871F1CF57000C1CFFF /* PathSettingViewController.xib */; };
 		8B11048C1F1E0E2700C1CFFF /* LoginSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B11048A1F1E0E2700C1CFFF /* LoginSettingsViewController.swift */; };
@@ -73,6 +75,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8B0297AA21E8CA5D0060C300 /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
+		8B0297AC21E8CA6D0060C300 /* OTPViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPViewController.xib; sourceTree = "<group>"; };
 		8B1104861F1CF57000C1CFFF /* PathSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathSettingViewController.swift; sourceTree = "<group>"; };
 		8B1104871F1CF57000C1CFFF /* PathSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PathSettingViewController.xib; sourceTree = "<group>"; };
 		8B11048A1F1E0E2700C1CFFF /* LoginSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSettingsViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 				8B1296172045673300F638E1 /* SidParseOperation.swift */,
 				8B27FC5C2046AAF100498EA0 /* StartGameOperation.swift */,
 				8B8A523D1F1F6338007E247D /* StoredParseOperation.swift */,
+				8B0297AA21E8CA5D0060C300 /* OTPViewController.swift */,
+				8B0297AC21E8CA6D0060C300 /* OTPViewController.xib */,
 			);
 			path = LaunchXIV;
 			sourceTree = "<group>";
@@ -280,12 +286,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Tyrone Trevorrow";
 				TargetAttributes = {
 					8B48245B1E76AB9D0072ED06 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -295,12 +301,13 @@
 					};
 					8B48246A1E76AB9E0072ED06 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 8B48245B1E76AB9D0072ED06;
 					};
 					8B724A29204674E200B8B311 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -334,6 +341,7 @@
 				8B4824621E76AB9E0072ED06 /* Assets.xcassets in Resources */,
 				8B4824651E76AB9E0072ED06 /* MainMenu.xib in Resources */,
 				8B129616204562AB00F638E1 /* LoadingViewController.xib in Resources */,
+				8B0297AD21E8CA6D0060C300 /* OTPViewController.xib in Resources */,
 				8B1104891F1CF57000C1CFFF /* PathSettingViewController.xib in Resources */,
 				8BF7AFC5204404CE009D8B93 /* MainWindowController.xib in Resources */,
 			);
@@ -362,6 +370,7 @@
 			files = (
 				8B11048C1F1E0E2700C1CFFF /* LoginSettingsViewController.swift in Sources */,
 				8B27FC5F2046B52100498EA0 /* LoginOperation.swift in Sources */,
+				8B0297AB21E8CA5D0060C300 /* OTPViewController.swift in Sources */,
 				8BF7AFC4204404CE009D8B93 /* MainWindowController.swift in Sources */,
 				8B8A523E1F1F6338007E247D /* StoredParseOperation.swift in Sources */,
 				8B1296142045629700F638E1 /* LoadingViewController.swift in Sources */,
@@ -431,6 +440,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -438,6 +448,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -486,6 +497,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -493,6 +505,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -539,7 +552,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -562,7 +575,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -577,8 +590,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIVTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaunchXIV.app/Contents/MacOS/LaunchXIV";
 			};
 			name = Debug;
@@ -594,8 +606,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIVTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaunchXIV.app/Contents/MacOS/LaunchXIV";
 			};
 			name = Release;
@@ -624,7 +635,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.GNJSwitchControl;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -654,7 +665,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.GNJSwitchControl;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
