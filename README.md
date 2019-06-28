@@ -1,5 +1,7 @@
 # LaunchXIV - A Better Launcher for Final Fantasy XIV
 
+**Notice: currently broken as of Shadowbringers. No ETA for a fix at this time.**
+
 This is a custom launcher for the the Mac version of Final Fantasy XIV. It's
 barebones and probably full of a lot of bugs but it should more or less do
 what it says on the tin.
