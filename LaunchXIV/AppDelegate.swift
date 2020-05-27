@@ -58,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             default:
                 DispatchQueue.main.async {
-                    try? settings.credentials!.deleteFromSecureStore()
+                    settings.credentials!.deleteLogin()
                     var updatedSettings = settings
                     updatedSettings.credentials = nil
                     self.mainWC?.settings = updatedSettings

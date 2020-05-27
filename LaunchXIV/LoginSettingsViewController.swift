@@ -60,6 +60,7 @@ class LoginSettingsViewController: NSViewController, MainWindowContentViewContro
     func updateSettings() {
         settings.credentials = FFXIVLoginCredentials(username: usernameField.stringValue, password: passwordField.stringValue)
         settings.usesOneTimePassword = otpSwitch.state
+        settings.serialize()
     }
     
 }

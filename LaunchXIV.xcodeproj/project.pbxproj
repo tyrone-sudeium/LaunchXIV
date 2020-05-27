@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,17 +24,13 @@
 		8B4824651E76AB9E0072ED06 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4824631E76AB9E0072ED06 /* MainMenu.xib */; };
 		8B4824701E76AB9E0072ED06 /* LaunchXIVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48246F1E76AB9E0072ED06 /* LaunchXIVTests.swift */; };
 		8B48247B1E76AC630072ED06 /* FFXIVLoginServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */; };
-		8B4824901E77EA4C0072ED06 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */; };
-		8B4824911E77EA4C0072ED06 /* CommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8B4824921E77EA4C0072ED06 /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248E1E77EA4C0072ED06 /* Crypto.framework */; };
-		8B4824931E77EA4C0072ED06 /* Crypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248E1E77EA4C0072ED06 /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8B4824941E77EA4C0072ED06 /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248F1E77EA4C0072ED06 /* Locksmith.framework */; };
-		8B4824951E77EA4C0072ED06 /* Locksmith.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48248F1E77EA4C0072ED06 /* Locksmith.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8B724A2E204674E200B8B311 /* GNJSwitchControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B724A2C204674E200B8B311 /* GNJSwitchControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B724A31204674E200B8B311 /* GNJSwitchControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B724A2A204674E200B8B311 /* GNJSwitchControl.framework */; };
 		8B724A32204674E200B8B311 /* GNJSwitchControl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B724A2A204674E200B8B311 /* GNJSwitchControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8B724A36204674F200B8B311 /* GNJSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B724A2320466EE600B8B311 /* GNJSwitchControl.swift */; };
 		8B8A523E1F1F6338007E247D /* StoredParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A523D1F1F6338007E247D /* StoredParseOperation.swift */; };
+		8B8CD279247E48DF00BB1A7C /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 8B8CD278247E48DF00BB1A7C /* Crypto */; };
+		8B8CD27C247E492000BB1A7C /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 8B8CD27B247E492000BB1A7C /* KeychainAccess */; };
 		8B9CEA931F1F85D800CA9FAE /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */; };
 		8BF7AFC4204404CE009D8B93 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF7AFC2204404CE009D8B93 /* MainWindowController.swift */; };
 		8BF7AFC5204404CE009D8B93 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF7AFC3204404CE009D8B93 /* MainWindowController.xib */; };
@@ -65,9 +61,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8B724A32204674E200B8B311 /* GNJSwitchControl.framework in Embed Frameworks */,
-				8B4824951E77EA4C0072ED06 /* Locksmith.framework in Embed Frameworks */,
-				8B4824911E77EA4C0072ED06 /* CommonCrypto.framework in Embed Frameworks */,
-				8B4824931E77EA4C0072ED06 /* Crypto.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,9 +90,6 @@
 		8B48246F1E76AB9E0072ED06 /* LaunchXIVTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchXIVTests.swift; sourceTree = "<group>"; };
 		8B4824711E76AB9E0072ED06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFXIVLoginServices.swift; sourceTree = "<group>"; };
-		8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/Mac/CommonCrypto.framework; sourceTree = "<group>"; };
-		8B48248E1E77EA4C0072ED06 /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/Mac/Crypto.framework; sourceTree = "<group>"; };
-		8B48248F1E77EA4C0072ED06 /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/Mac/Locksmith.framework; sourceTree = "<group>"; };
 		8B724A2320466EE600B8B311 /* GNJSwitchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GNJSwitchControl.swift; sourceTree = "<group>"; };
 		8B724A2A204674E200B8B311 /* GNJSwitchControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GNJSwitchControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B724A2C204674E200B8B311 /* GNJSwitchControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GNJSwitchControl.h; sourceTree = "<group>"; };
@@ -116,9 +106,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B724A31204674E200B8B311 /* GNJSwitchControl.framework in Frameworks */,
-				8B4824941E77EA4C0072ED06 /* Locksmith.framework in Frameworks */,
-				8B4824901E77EA4C0072ED06 /* CommonCrypto.framework in Frameworks */,
-				8B4824921E77EA4C0072ED06 /* Crypto.framework in Frameworks */,
+				8B8CD279247E48DF00BB1A7C /* Crypto in Frameworks */,
+				8B8CD27C247E492000BB1A7C /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,9 +131,6 @@
 		8B4824531E76AB9D0072ED06 = {
 			isa = PBXGroup;
 			children = (
-				8B48248D1E77EA4C0072ED06 /* CommonCrypto.framework */,
-				8B48248E1E77EA4C0072ED06 /* Crypto.framework */,
-				8B48248F1E77EA4C0072ED06 /* Locksmith.framework */,
 				8B48245E1E76AB9E0072ED06 /* LaunchXIV */,
 				8B48246E1E76AB9E0072ED06 /* LaunchXIVTests */,
 				8B724A2B204674E200B8B311 /* GNJSwitchControl */,
@@ -239,6 +225,10 @@
 				8B724A30204674E200B8B311 /* PBXTargetDependency */,
 			);
 			name = LaunchXIV;
+			packageProductDependencies = (
+				8B8CD278247E48DF00BB1A7C /* Crypto */,
+				8B8CD27B247E492000BB1A7C /* KeychainAccess */,
+			);
 			productName = LaunchXIV;
 			productReference = 8B48245C1E76AB9E0072ED06 /* LaunchXIV.app */;
 			productType = "com.apple.product-type.application";
@@ -291,7 +281,7 @@
 				TargetAttributes = {
 					8B48245B1E76AB9D0072ED06 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1140;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -307,7 +297,7 @@
 					};
 					8B724A29204674E200B8B311 = {
 						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1140;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -317,10 +307,15 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
 			mainGroup = 8B4824531E76AB9D0072ED06;
+			packageReferences = (
+				8B8CD277247E48DF00BB1A7C /* XCRemoteSwiftPackageReference "Crypto" */,
+				8B8CD27A247E492000BB1A7C /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+			);
 			productRefGroup = 8B48245D1E76AB9E0072ED06 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -529,7 +524,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
@@ -542,18 +538,23 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = UZR9WVPJ62;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = CFWR7ZWP8S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = LaunchXIV/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIV;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tyrone-sudeium.LaunchXIV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -566,18 +567,23 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = UZR9WVPJ62;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = CFWR7ZWP8S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = LaunchXIV/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIV;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tyrone-sudeium.LaunchXIV";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -589,7 +595,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = CFWR7ZWP8S;
 				INFOPLIST_FILE = LaunchXIVTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIVTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -605,7 +615,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = CFWR7ZWP8S;
 				INFOPLIST_FILE = LaunchXIVTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.LaunchXIVTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -632,12 +646,16 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GNJSwitchControl/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.GNJSwitchControl;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -662,12 +680,16 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GNJSwitchControl/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sudeium.GNJSwitchControl;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -713,6 +735,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8B8CD277247E48DF00BB1A7C /* XCRemoteSwiftPackageReference "Crypto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/Crypto";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+		8B8CD27A247E492000BB1A7C /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8B8CD278247E48DF00BB1A7C /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B8CD277247E48DF00BB1A7C /* XCRemoteSwiftPackageReference "Crypto" */;
+			productName = Crypto;
+		};
+		8B8CD27B247E492000BB1A7C /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B8CD27A247E492000BB1A7C /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8B4824541E76AB9D0072ED06 /* Project object */;
 }

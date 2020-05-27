@@ -87,7 +87,10 @@ class MainWindowController: NSWindowController, Navigator {
         if settings.appPath == nil {
             return .pathSettings
         }
-        if settings.credentials == nil {
+        guard let credentials = settings.credentials else {
+            return .loginSettings
+        }
+        if credentials.username.count == 0 || credentials.password.count == 0 {
             return .loginSettings
         }
         if settings.usesOneTimePassword {

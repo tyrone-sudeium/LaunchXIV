@@ -8,7 +8,7 @@
 
 import Foundation
 import Security
-import Locksmith
+import KeychainAccess
 import Crypto
 
 
@@ -78,13 +78,11 @@ public struct FFXIVServerLoginResponse {
     }
 }
 
-public struct FFXIVLoginCredentials: InternetPasswordSecureStorable {
+public struct FFXIVLoginCredentials {
     let username: String
     let password: String
     var oneTimePassword: String? = nil
     
-    public let authenticationType = LocksmithInternetAuthenticationType.htmlForm
-    public let internetProtocol = LocksmithInternetProtocol.https
     public let port = 80
     public let server = "secure.square-enix.com"
     
@@ -100,24 +98,18 @@ public struct FFXIVLoginCredentials: InternetPasswordSecureStorable {
         self.oneTimePassword = oneTimePassword
     }
     
-    public var data: [String: Any] {
-        return ["password": password]
-    }
-    
-    public var account: String {
-        return username
-    }
-    
     static func storedLogin(username: String) -> FFXIVLoginCredentials? {
-        let loginQuery = FFXIVLoginCredentials(username: username)
-        let keychainResult = loginQuery.readFromSecureStore()
-        guard let passwordDict = keychainResult?.data else {
-            return nil
-        }
-        guard let storedPassword = passwordDict["password"] as? String else {
+        let keychain = Keychain(server: "https://secure.square-enix.com", protocolType: .https)
+        // wtf Swift
+        guard case let storedPassword?? = (((try? keychain.get(username)) as String??)) else {
             return nil
         }
         return FFXIVLoginCredentials(username: username, password: storedPassword)
+    }
+    
+    static func deleteLogin(username: String) {
+        let keychain = Keychain(server: "https://secure.square-enix.com", protocolType: .https)
+        keychain[username] = nil
     }
     
     public func loginData(storedSID: String) -> Data {
@@ -132,18 +124,15 @@ public struct FFXIVLoginCredentials: InternetPasswordSecureStorable {
         let str = cmp.percentEncodedQuery!
         return str.data(using: .utf8)!
     }
-}
-
-extension FFXIVLoginCredentials: ReadableSecureStorable {
     
-}
-
-extension FFXIVLoginCredentials: DeleteableSecureStorable {
+    public func saveLogin() {
+        let keychain = Keychain(server: "https://secure.square-enix.com", protocolType: .https)
+        keychain[username] = password
+    }
     
-}
-
-extension FFXIVLoginCredentials: CreateableSecureStorable {
-    
+    public func deleteLogin() {
+        FFXIVLoginCredentials.deleteLogin(username: username)
+    }
 }
 
 public enum FFXIVLoginResult {
@@ -205,7 +194,7 @@ public struct FFXIVSettings {
         guard let bundleId = bundle.object(forInfoDictionaryKey: kCFBundleIdentifierKey as String) as? String else {
             return false
         }
-        if bundleId != "com.transgaming.realmreborn" {
+        if bundleId != "com.square-enix.finalfantasyxiv" {
             return false
         }
         return true
@@ -222,11 +211,7 @@ public struct FFXIVSettings {
         storage.set(region.rawValue, forKey: "region")
         storage.synchronize()
         if let creds = credentials {
-            do {
-                try creds.createInSecureStore()
-            } catch (let err) {
-                print(err)
-            }
+            creds.saveLogin()
         }
     }
     
@@ -268,7 +253,7 @@ private class FFXIVSSLDelegate: NSObject, URLSessionDelegate {
 }
 
 private struct FFXIVLogin {
-    static let userAgent = "SQEXAuthor/2.0.0(Windows XP; ja-jp; 3aed65f87c)"
+    static let userAgent = "macSQEXAuthor/2.0.0(MacOSX; ja-jp)"
     static let authURL = URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/login.send")!
     
     static let loginHeaders = [
@@ -292,7 +277,7 @@ private struct FFXIVLogin {
     ]
     
     var loginURL: URL {
-        return URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn=\(settings.region.rawValue)")!
+        return URL(string: "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn=\(settings.region.rawValue)&isft=0&issteam=0")!
     }
     
     var sessionURL: URL {
@@ -310,18 +295,6 @@ private struct FFXIVLogin {
         self.settings = settings
         app = FFXIVApp(url)
     }
-    
-//    var bootVersion: String {
-//        
-//    }
-//    
-//    func login(completion: ((FFXIVLoginResult) -> Void)) {
-//        
-//    }
-//    
-//    func bootVersion() -> String {
-//        
-//    }
     
     fileprivate func getStored(completion: @escaping ((FFXIVLoginPageData) -> Void)) {
         fetch(headers: FFXIVLogin.loginHeaders, url: loginURL, postBody: nil) { body, response in
@@ -456,12 +429,19 @@ public struct FFXIVApp {
     
     init(_ appURL: URL) {
         self.appURL = appURL
-        let ffxiv = appURL
-            .appendingPathComponent("Contents")
-            .appendingPathComponent("Resources")
-            .appendingPathComponent("transgaming")
-            .appendingPathComponent("c_drive")
-            .appendingPathComponent("ffxiv")
+        let bottle = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library")
+            .appendingPathComponent("Application Support")
+            .appendingPathComponent("FINAL FANTASY XIV ONLINE")
+            .appendingPathComponent("Bottles")
+            .appendingPathComponent("published_Final_Fantasy")
+
+        let ffxiv = bottle
+            .appendingPathComponent("drive_c")
+            .appendingPathComponent("Program Files (x86)")
+            .appendingPathComponent("SquareEnix")
+            .appendingPathComponent("FINAL FANTASY XIV - A Realm Reborn")
+
         
         let boot = ffxiv.appendingPathComponent("boot")
         bootExeURL = boot.appendingPathComponent("ffxivboot.exe")
@@ -474,8 +454,10 @@ public struct FFXIVApp {
 
         ciderURL = appURL
             .appendingPathComponent("Contents")
-            .appendingPathComponent("MacOS")
-            .appendingPathComponent("FINALFANTASYXIV")
+            .appendingPathComponent("SharedSupport")
+            .appendingPathComponent("finalfantasyxiv")
+            .appendingPathComponent("bin")
+            .appendingPathComponent("wine")
         
         let game = ffxiv.appendingPathComponent("game")
         dx9URL = game.appendingPathComponent("ffxiv.exe")

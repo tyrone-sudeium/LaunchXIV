@@ -33,7 +33,6 @@ class StartGameOperation: AsyncOperation {
     
     func arguments(app: FFXIVApp) -> [String] {
         let cmdline = [
-            app.dx9URL.path,
             "language=1",
             "DEV.UseSqPack=1",
             "DEV.DataPathType=1",
@@ -47,9 +46,14 @@ class StartGameOperation: AsyncOperation {
             "ver=\(app.gameVer)"
         ]
         return [
-            "-cmdline",
-            cmdline.joined(separator: " "),
-            app.dx9URL.path // Mac only supports "DX9" right now
-        ]
+            "winewrapper.exe",
+            "--enable-alt-loader",
+            "macdrv",
+            "--workdir",
+            "C:/Program Files (x86)/SquareEnix/FINAL FANTASY XIV - A Realm Reborn/boot",
+            "--run",
+            "--",
+            "../game/ffxiv_dx11.exe"
+        ] + cmdline
     }
 }
