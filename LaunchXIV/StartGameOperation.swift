@@ -25,12 +25,38 @@ class StartGameOperation: AsyncOperation {
         }
         let app = FFXIVApp(appURL)
         let args = arguments(app: app)
-        try! NSWorkspace.shared.launchApplication(at: app.ciderURL,
+        let env = environment(app: app)
+        try! NSWorkspace.shared.launchApplication(at: app.wineLoaderURL,
                                                   options: [],
-                                                  configuration: [.arguments: args])
+                                                  configuration: [
+                                                    .arguments: args,
+                                                    .environment: env
+        ])
         state = .finished
     }
-    
+
+    func environment(app: FFXIVApp) -> [String: String] {
+        let userId = getuid()
+        return [
+            "CX_WINEWRAPPER_ALT_LOADER_SOCKET": "/var/tmp/tmp.1.AMHefm",
+            "WINESERVER": "\(app.cxRoot.path)/bin/wineserver",
+            "CX_BOTTLE": "published_Final_Fantasy",
+            "CX_ROOT": app.cxRoot.path,
+            "CX_MANAGED_BOTTLE_PATH": "\(app.appSupportRoot.path)/BuiltinBottles",
+            "PATH": "\(app.cxRoot.path)/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+            "WINEPREFIX": app.bottleURL.path,
+            "CX_APP_BUNDLE_PATH": app.appURL.path,
+            "WINELOADER": "\(app.cxRoot.path)/bin/wineloader64",
+            "CX_INITIALIZED": "\(userId):published_Final_Fantasy",
+            "WINEDEBUG": "-all",
+            "CX_BOTTLE_PATH": "\(app.appSupportRoot.path)/Bottles",
+            "WINEDLLPATH": "",
+            "CX_LAUNCH_NOTIFY_SOCKET": "/var/tmp/tmp.0.RAnlpo",
+            "CX_DEBUGMSG": "-all",
+            "WINELOADERNOEXEC": "1"
+        ]
+    }
+
     func arguments(app: FFXIVApp) -> [String] {
         let cmdline = [
             "language=1",

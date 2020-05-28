@@ -422,27 +422,31 @@ public struct FFXIVApp {
     let launcherExe64URL: URL
     let updaterExeURL: URL
     let updaterExe64URL: URL
-    let ciderURL: URL
+    let wineLoaderURL: URL
     let dx9URL: URL
     let dx11URL: URL
     let gameVersionURL: URL
+    let bottleURL: URL
+    let cxRoot: URL
+    let appSupportRoot: URL
     
     init(_ appURL: URL) {
         self.appURL = appURL
-        let bottle = FileManager.default.homeDirectoryForCurrentUser
+        appSupportRoot = FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent("Library")
             .appendingPathComponent("Application Support")
             .appendingPathComponent("FINAL FANTASY XIV ONLINE")
+        
+        bottleURL = appSupportRoot
             .appendingPathComponent("Bottles")
             .appendingPathComponent("published_Final_Fantasy")
 
-        let ffxiv = bottle
+        let ffxiv = bottleURL
             .appendingPathComponent("drive_c")
             .appendingPathComponent("Program Files (x86)")
             .appendingPathComponent("SquareEnix")
             .appendingPathComponent("FINAL FANTASY XIV - A Realm Reborn")
 
-        
         let boot = ffxiv.appendingPathComponent("boot")
         bootExeURL = boot.appendingPathComponent("ffxivboot.exe")
         bootExe64URL = boot.appendingPathComponent("ffxivboot64.exe")
@@ -452,12 +456,14 @@ public struct FFXIVApp {
         updaterExeURL = boot.appendingPathComponent("ffxivupdater.exe")
         updaterExe64URL = boot.appendingPathComponent("ffxivupdater64.exe")
 
-        ciderURL = appURL
+        cxRoot = appURL
             .appendingPathComponent("Contents")
             .appendingPathComponent("SharedSupport")
             .appendingPathComponent("finalfantasyxiv")
+        
+        wineLoaderURL = cxRoot
             .appendingPathComponent("bin")
-            .appendingPathComponent("wine")
+            .appendingPathComponent("wineloader64")
         
         let game = ffxiv.appendingPathComponent("game")
         dx9URL = game.appendingPathComponent("ffxiv.exe")
