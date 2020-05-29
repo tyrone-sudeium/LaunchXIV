@@ -33,10 +33,10 @@ stable version is available by clicking the Releases link above.
 > properly.
 
 * Clone this repo (obviously).
-* Install Xcode 9.2.
-* Install Carthage. Consider `brew install carthage`.
-* Run `carthage update` in the repo root.
-* Open `LaunchXIV.xcodeproj` in Xcode. Build & Run.
+* Install Xcode 11.3+.
+* Open `LaunchXIV.xcodeproj` in Xcode.
+* You'll probably need to change the Bundle ID for codesigning.
+* Build & Run.
 
 # FAQ
 
@@ -50,7 +50,7 @@ Something like this:
 
 ## When will this be working?
 
-It works right now!
+No idea, whenever [#3](//github.com/tyrone-sudeium/LaunchXIV/issues/3) is resolved I guess.
 
 ## How do I change the password?
 
@@ -71,28 +71,22 @@ like the game just launches without needing a login.
 
 ## Why?
 
-The Mac port of Final Fantasy XIV is lazy. People on the internet have built
-"ports" using the same porting technology (Wine) in just a couple of hours
-of configuring. *That* is how lazy this port is, it could literally be done
-in the span of hours. This laziness means we get the very same nasty launcher
-you get in Windows, and it's bad enough there, but on macOS it just stinks up
-the whole place.
+No offense to the wonderful people at Codeweavers, but the Mac port of Final 
+Fantasy XIV is lazy. Since it's using a compatibility layer (CrossOver, the
+paid, commercial fork of the open source Wine project), it literally just runs
+the exact same code as the Windows version, with a significant performance and
+integration penalty. There's no reason for a Mac app to repeatedly ask for your
+login credentials when macOS provides a standard, secure, widely utilised
+mechanism for storing them: the keychain, but because it runs the same code as
+Windows, it can't.
 
-Despite this, I absolutely *adore* Final Fantasy XIV. If Square Enix don't want
-to do their job properly, I guess it's up to us, the fans, to do it for them.
-You're welcome.
+If Square Enix don't want to do their job properly, I guess it's up to us, the 
+fans, to do it for them. You're welcome.
 
 ## Can I use this to play on Mac with my PC license?
 
-No. Square Enix in their divine wisdom decided to *require* a separate, 
-full-price license for the Mac client, despite the fact that they put almost
-literally *zero effort* into making it, since it's just a Transgaming Cider
-wrapped app. The `ffxiv.exe`, `ffxivlauncher.exe` and friends included in the
-Mac app are even *binary identical* to the Windows one, which makes it
-particularly egregious that they charge you a separate license for it. However,
-any circumvention of this mechanism is copyright "theft" at worst, and an EULA
-violation at best, so I do not endorse it, nor provide any means with which to
-do it.
+No. I'm pretty sure such a thing is _technically possible_ since wine is open
+source, though.
 
 ## Does this completely replace the standard launcher?
 
