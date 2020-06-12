@@ -2,6 +2,17 @@
 # Adapted from a script by Andy Maloney
 # http://asmaloney.com/2013/07/howto/packaging-a-mac-os-x-application-using-a-dmg/
 
+# Note to self: notarization
+# Do this once (per machine):
+# xcrun altool --store-password-in-keychain-item "AC_PASSWORD" -u "[Apple ID Email]" -p "[generated app specific pwd]"
+# Then do this to notarize the dmg:
+# xcrun altool --notarize-app -f "LaunchXIV [ver].dmg" --primary-bundle-id com.tyrone-sudeium.LaunchXIV --username "[Apple ID Email" --password "@keychain:AC_PASSWORD"
+# Then wait for the email saying it's OK
+# Then run:
+# xcrun stapler staple "LaunchXIV [ver].dmg"
+# Then verify it's OK
+# spctl -a -vvv -t install "LaunchXIV [ver].dmg"
+
 if [ $# -eq 0 ]; then
     echo "usage: $0 [Path to LaunchXIV.app]"
     exit 1
@@ -9,9 +20,9 @@ fi
 
 # set up your app name, version number, and background image file name
 APP_NAME="LaunchXIV"
-VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "../LaunchXIV/Info.plist")
 DMG_BACKGROUND_IMG="../Assets/DMGBackground.png"
 APP_PATH="$1"
+VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP_PATH/Contents/Info.plist")
 
 # you should not need to change these
 APP_EXE="${APP_NAME}.app/Contents/MacOS/${APP_NAME}"

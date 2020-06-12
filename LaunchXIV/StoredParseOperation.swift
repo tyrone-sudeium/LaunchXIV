@@ -10,6 +10,7 @@ import WebKit
 
 public class StoredParseOperation: HTMLParseOperation {
     public override func parseWebView() {
+        // TODO: rewrite this using JS
         guard let fields = webView.mainFrame.domDocument.getElementsByName("_STORED_") else {
             result = .error
             state = .finished
