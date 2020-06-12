@@ -25,9 +25,7 @@ class StartGameOperation: AsyncOperation {
         }
         let app = FFXIVApp(appURL)
         let args = arguments(app: app)
-        try! NSWorkspace.shared.launchApplication(at: app.ciderURL,
-                                                  options: [],
-                                                  configuration: [.arguments: args])
+        try! Process.run(app.ciderURL, arguments: args)
         state = .finished
     }
     

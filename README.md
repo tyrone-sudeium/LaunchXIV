@@ -1,7 +1,5 @@
 # LaunchXIV - A Better Launcher for Final Fantasy XIV
 
-**Notice: currently broken as of Shadowbringers. No ETA for a fix at this time.**
-
 This is a custom launcher for the the Mac version of Final Fantasy XIV. It's
 barebones and probably full of a lot of bugs but it should more or less do
 what it says on the tin.
@@ -50,7 +48,7 @@ Something like this:
 
 ## When will this be working?
 
-No idea, whenever [#3](//github.com/tyrone-sudeium/LaunchXIV/issues/3) is resolved I guess.
+Should work right now.
 
 ## How do I change the password?
 
