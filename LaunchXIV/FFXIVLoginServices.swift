@@ -16,6 +16,7 @@ public enum FFXIVExpansionLevel: UInt32 {
     case aRealmReborn = 0
     case heavensward = 1
     case stormblood = 2
+    case shadowbringers = 3
 }
 
 public enum FFXIVRegion: UInt32 {
