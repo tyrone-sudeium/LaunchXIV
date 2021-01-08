@@ -1,0 +1,23 @@
+name: Build for macOS
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build and Test default scheme
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          xcodebuild -resolvePackageDependencies -workspace LaunchXIV.xcworkspace -scheme LaunchXIV -clonedSourcePackagesDirPath ./Build
+          xcodebuild build-for-testing -workspace LaunchXIV.xcworkspace -scheme LaunchXIV -clonedSourcePackagesDirPath ./Build -disableAutomaticPackageResolution
+      - name: Test
+        run: |
+          xcodebuild test-without-building -workspace LaunchXIV.xcworkspace -scheme LaunchXIV -clonedSourcePackagesDirPath ./Build
