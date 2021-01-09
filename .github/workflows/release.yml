@@ -22,13 +22,14 @@ jobs:
       id: build_archive
       run: |
         xcodebuild -resolvePackageDependencies -workspace LaunchXIV.xcworkspace -scheme LaunchXIV -clonedSourcePackagesDirPath ./Build
-        xcodebuild archive -workspace LaunchXIV.xcworkspace -scheme LaunchXIV -clonedSourcePackagesDirPath ./Build -archivePath "./Build/LaunchXIV"
+        xcodebuild archive -workspace LaunchXIV.xcworkspace -scheme LaunchXIV -clonedSourcePackagesDirPath ./Build -archivePath "./Build/LaunchXIV" CURRENT_PROJECT_VERSION="$CURRENT_PROJECT_VERSION" MARKETING_VERSION="$MARKETING_VERSION"
         cd Build
         ./MakeDMG.sh "LaunchXIV.xcarchive/Products/Applications/LaunchXIV.app"
 
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1.0.0
+      continue-on-error: true
+      uses: webclipper/create-release@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -36,6 +37,7 @@ jobs:
         release_name: ${{ github.ref }}
         draft: false
         prerelease: false
+        allow_duplicate: true
 
     - name: Upload Release Asset
       id: upload_release_asset 
