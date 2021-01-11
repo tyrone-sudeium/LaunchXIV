@@ -17,7 +17,6 @@
 		8B129616204562AB00F638E1 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B129615204562AB00F638E1 /* LoadingViewController.xib */; };
 		8B1296182045673300F638E1 /* SidParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1296172045673300F638E1 /* SidParseOperation.swift */; };
 		8B12961A204567AD00F638E1 /* HTMLParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B129619204567AD00F638E1 /* HTMLParseOperation.swift */; };
-		8B1E547F25AC44BF00C45DD6 /* Blowfish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E547E25AC44BF00C45DD6 /* Blowfish.swift */; };
 		8B27FC5D2046AAF100498EA0 /* StartGameOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FC5C2046AAF100498EA0 /* StartGameOperation.swift */; };
 		8B27FC5F2046B52100498EA0 /* LoginOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FC5E2046B52100498EA0 /* LoginOperation.swift */; };
 		8B4824601E76AB9E0072ED06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */; };
@@ -78,7 +77,6 @@
 		8B129615204562AB00F638E1 /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		8B1296172045673300F638E1 /* SidParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidParseOperation.swift; sourceTree = "<group>"; };
 		8B129619204567AD00F638E1 /* HTMLParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLParseOperation.swift; sourceTree = "<group>"; };
-		8B1E547E25AC44BF00C45DD6 /* Blowfish.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blowfish.swift; sourceTree = "<group>"; };
 		8B27FC5C2046AAF100498EA0 /* StartGameOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameOperation.swift; sourceTree = "<group>"; };
 		8B27FC5E2046B52100498EA0 /* LoginOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOperation.swift; sourceTree = "<group>"; };
 		8B27FC602046BDD100498EA0 /* LaunchXIV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchXIV.entitlements; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 				8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */,
 				8B4824611E76AB9E0072ED06 /* Assets.xcassets */,
 				8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */,
-				8B1E547E25AC44BF00C45DD6 /* Blowfish.swift */,
 				8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */,
 				8B129619204567AD00F638E1 /* HTMLParseOperation.swift */,
 				8B4824661E76AB9E0072ED06 /* Info.plist */,
@@ -376,7 +373,6 @@
 				8B8A523E1F1F6338007E247D /* StoredParseOperation.swift in Sources */,
 				8B1296142045629700F638E1 /* LoadingViewController.swift in Sources */,
 				8B12961A204567AD00F638E1 /* HTMLParseOperation.swift in Sources */,
-				8B1E547F25AC44BF00C45DD6 /* Blowfish.swift in Sources */,
 				8B1104881F1CF57000C1CFFF /* PathSettingViewController.swift in Sources */,
 				8B27FC5D2046AAF100498EA0 /* StartGameOperation.swift in Sources */,
 				8B1296182045673300F638E1 /* SidParseOperation.swift in Sources */,
