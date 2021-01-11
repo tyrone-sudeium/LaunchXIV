@@ -9,7 +9,7 @@
 import Foundation
 import Security
 import KeychainAccess
-import Crypto
+import CommonCrypto
 
 
 public enum FFXIVExpansionLevel: UInt32 {
@@ -495,12 +495,15 @@ public struct FFXIVApp {
     
     private static func sha1(file: URL) -> (String, Int) {
         let data = try! Data.init(contentsOf: file)
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
+        data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Void in
+            CC_SHA1(bytes.baseAddress, UInt32(data.count), &hash)
+        }
+
         var string = ""
-        var sha1Iterator = data.sha1.makeIterator()
-        while let byte = sha1Iterator.next() {
+        for byte in hash {
             string += String(format: "%02x", byte)
         }
         return (string, data.count)
     }
 }
-

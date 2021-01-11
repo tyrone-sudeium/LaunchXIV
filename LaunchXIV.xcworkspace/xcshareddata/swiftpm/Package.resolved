@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Crypto",
-        "repositoryURL": "https://github.com/soffes/Crypto",
-        "state": {
-          "branch": null,
-          "revision": "0e9cb691eba2130a647e84775050ae2a57c12d26",
-          "version": "0.6.0"
-        }
-      },
-      {
         "package": "KeychainAccess",
         "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess",
         "state": {

@@ -494,5 +494,24 @@ class LaunchXIVTests: XCTestCase {
         queue.addOperation(op)
         wait(for: [expect], timeout: 5.0)
     }
-    
+
+    func testArgumentEncryption() {
+        let expected = "//**sqex0003GLBqsICCnUUr1zHEXvdQZUE-k385enBr_CALwmVqQbuVPSuvbjJlbOvdY1VxxfYsl_l1aNT7LOqY1hXgMFApoeNwsc9knIUdWVWhV7yN_Y-fWjlwbN--IHtqp1Yr_NmtCN9W4CyB7Cn3asasHYWjuLT4KZDY_1JC8sluramSAH3csIL6xvhdkJA1_QoQclBco327gI6s-7SzfhWpqkfXinp0ZiDaufVOoCByrYyDYvyoykEmcOZcgEU81dMCUM_xlS8Fz6MXXkaRhFt3Y0fxQ_M4H0UUJnBRF15wb7Ayw0wQF6tFnwn52b4G36S6nG_wv3aXC-yVZZ_HPTbaaCW9aSefxy1xv5yTTTgC2d5vkSGdMaInqdHkQ7FcNhfZr9jlVfcWRNnPveFijgBG2rb7lWYUESWOBpTTp**//"
+        let ticks = UInt64(12841093)
+        let args = [
+            ("T", "\(ticks & 0xFFFFFFFF)"),
+            ("/DEV.DataPathType", "1"),
+            ("/DEV.MaxEntitledExpansionID", "3"),
+            ("/DEV.TestSID", "4eb9b21f138a37d5738f6d8fc7619142"),
+            ("/DEV.UseSqPack", "1"),
+            ("/IsSteam", "1"),
+            ("/SYS.Region", "3"),
+            ("/UserPath", "C:/Users/Administrator/Documents/My Games/FINAL FANTASY XIV - A Realm Reborn"),
+            ("/language", "1"),
+            ("/resetConfig", "0"),
+            ("/ver", "2020.12.15.0000.0000")
+        ]
+        let sqexRobotBarf = StartGameOperation.encryptedArgs(args: args, ticks: ticks)
+        XCTAssertEqual(sqexRobotBarf, expected)
+    }
 }

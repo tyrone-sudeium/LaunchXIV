@@ -17,6 +17,7 @@
 		8B129616204562AB00F638E1 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B129615204562AB00F638E1 /* LoadingViewController.xib */; };
 		8B1296182045673300F638E1 /* SidParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1296172045673300F638E1 /* SidParseOperation.swift */; };
 		8B12961A204567AD00F638E1 /* HTMLParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B129619204567AD00F638E1 /* HTMLParseOperation.swift */; };
+		8B1E547F25AC44BF00C45DD6 /* Blowfish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E547E25AC44BF00C45DD6 /* Blowfish.swift */; };
 		8B27FC5D2046AAF100498EA0 /* StartGameOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FC5C2046AAF100498EA0 /* StartGameOperation.swift */; };
 		8B27FC5F2046B52100498EA0 /* LoginOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FC5E2046B52100498EA0 /* LoginOperation.swift */; };
 		8B4824601E76AB9E0072ED06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */; };
@@ -29,7 +30,6 @@
 		8B724A32204674E200B8B311 /* GNJSwitchControl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B724A2A204674E200B8B311 /* GNJSwitchControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8B724A36204674F200B8B311 /* GNJSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B724A2320466EE600B8B311 /* GNJSwitchControl.swift */; };
 		8B8A523E1F1F6338007E247D /* StoredParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8A523D1F1F6338007E247D /* StoredParseOperation.swift */; };
-		8B8CD279247E48DF00BB1A7C /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 8B8CD278247E48DF00BB1A7C /* Crypto */; };
 		8B8CD27C247E492000BB1A7C /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 8B8CD27B247E492000BB1A7C /* KeychainAccess */; };
 		8B9CEA931F1F85D800CA9FAE /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */; };
 		8BF7AFC4204404CE009D8B93 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF7AFC2204404CE009D8B93 /* MainWindowController.swift */; };
@@ -78,6 +78,7 @@
 		8B129615204562AB00F638E1 /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		8B1296172045673300F638E1 /* SidParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidParseOperation.swift; sourceTree = "<group>"; };
 		8B129619204567AD00F638E1 /* HTMLParseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLParseOperation.swift; sourceTree = "<group>"; };
+		8B1E547E25AC44BF00C45DD6 /* Blowfish.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blowfish.swift; sourceTree = "<group>"; };
 		8B27FC5C2046AAF100498EA0 /* StartGameOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameOperation.swift; sourceTree = "<group>"; };
 		8B27FC5E2046B52100498EA0 /* LoginOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOperation.swift; sourceTree = "<group>"; };
 		8B27FC602046BDD100498EA0 /* LaunchXIV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchXIV.entitlements; sourceTree = "<group>"; };
@@ -106,7 +107,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B724A31204674E200B8B311 /* GNJSwitchControl.framework in Frameworks */,
-				8B8CD279247E48DF00BB1A7C /* Crypto in Frameworks */,
 				8B8CD27C247E492000BB1A7C /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +128,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B1E53D125AC3AB400C45DD6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8B4824531E76AB9D0072ED06 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +142,7 @@
 				8B48246E1E76AB9E0072ED06 /* LaunchXIVTests */,
 				8B724A2B204674E200B8B311 /* GNJSwitchControl */,
 				8B48245D1E76AB9E0072ED06 /* Products */,
+				8B1E53D125AC3AB400C45DD6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,6 +163,7 @@
 				8B48245F1E76AB9E0072ED06 /* AppDelegate.swift */,
 				8B4824611E76AB9E0072ED06 /* Assets.xcassets */,
 				8B9CEA921F1F85D800CA9FAE /* AsyncOperation.swift */,
+				8B1E547E25AC44BF00C45DD6 /* Blowfish.swift */,
 				8B48247A1E76AC630072ED06 /* FFXIVLoginServices.swift */,
 				8B129619204567AD00F638E1 /* HTMLParseOperation.swift */,
 				8B4824661E76AB9E0072ED06 /* Info.plist */,
@@ -226,7 +235,6 @@
 			);
 			name = LaunchXIV;
 			packageProductDependencies = (
-				8B8CD278247E48DF00BB1A7C /* Crypto */,
 				8B8CD27B247E492000BB1A7C /* KeychainAccess */,
 			);
 			productName = LaunchXIV;
@@ -312,7 +320,6 @@
 			);
 			mainGroup = 8B4824531E76AB9D0072ED06;
 			packageReferences = (
-				8B8CD277247E48DF00BB1A7C /* XCRemoteSwiftPackageReference "Crypto" */,
 				8B8CD27A247E492000BB1A7C /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 8B48245D1E76AB9E0072ED06 /* Products */;
@@ -369,6 +376,7 @@
 				8B8A523E1F1F6338007E247D /* StoredParseOperation.swift in Sources */,
 				8B1296142045629700F638E1 /* LoadingViewController.swift in Sources */,
 				8B12961A204567AD00F638E1 /* HTMLParseOperation.swift in Sources */,
+				8B1E547F25AC44BF00C45DD6 /* Blowfish.swift in Sources */,
 				8B1104881F1CF57000C1CFFF /* PathSettingViewController.swift in Sources */,
 				8B27FC5D2046AAF100498EA0 /* StartGameOperation.swift in Sources */,
 				8B1296182045673300F638E1 /* SidParseOperation.swift in Sources */,
@@ -730,14 +738,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8B8CD277247E48DF00BB1A7C /* XCRemoteSwiftPackageReference "Crypto" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/soffes/Crypto";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.6.0;
-			};
-		};
 		8B8CD27A247E492000BB1A7C /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
@@ -749,11 +749,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8B8CD278247E48DF00BB1A7C /* Crypto */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8B8CD277247E48DF00BB1A7C /* XCRemoteSwiftPackageReference "Crypto" */;
-			productName = Crypto;
-		};
 		8B8CD27B247E492000BB1A7C /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8B8CD27A247E492000BB1A7C /* XCRemoteSwiftPackageReference "KeychainAccess" */;
