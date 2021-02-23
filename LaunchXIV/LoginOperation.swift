@@ -48,6 +48,14 @@ class LoginOperation: AsyncOperation {
             alert.informativeText = "LaunchXIV cannot patch Final Fantasy XIV. Please use the standard launcher to patch."
             alert.runModal()
             NSApp.terminate(nil)
+        case .networkError:
+            let alert = NSAlert()
+            alert.addButton(withTitle: "Ok")
+            alert.alertStyle = .critical
+            alert.messageText = "Network Error"
+            alert.informativeText = "Check your internet connection, or try again later. Is FFXIV down?"
+            alert.runModal()
+            NSApp.terminate(nil)
         case .success(_, let updatedSettings):
             // These settings are provably correct, definitely save them
             updatedSettings.serialize()

@@ -17,6 +17,7 @@ public enum FFXIVExpansionLevel: UInt32 {
     case heavensward = 1
     case stormblood = 2
     case shadowbringers = 3
+    case endwalker = 4
 }
 
 public enum FFXIVRegion: UInt32 {
@@ -141,6 +142,7 @@ public enum FFXIVLoginResult {
     case clientUpdate
     case incorrectCredentials
     case protocolError
+    case networkError
 }
 
 private enum FFXIVLoginPageData {
@@ -372,7 +374,11 @@ private struct FFXIVLogin {
         let postBody = app.versionHash.data(using: .utf8)
         fetch(headers: headers, url: url, postBody: postBody) { body, response in
             if let unexpectedResponseBody = body, unexpectedResponseBody.count > 0 {
-                completion(.protocolError)
+                if (response.statusCode <= 299) {
+                    completion(.clientUpdate)
+                } else {
+                    completion(.networkError)
+                }
                 return
             }
             guard let finalSid = response.allHeaderFields["X-Patch-Unique-Id"] as? String else {
