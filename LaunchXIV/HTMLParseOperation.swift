@@ -26,7 +26,7 @@ public enum HTMLParseResult: Equatable {
     }
 }
 
-public class HTMLParseOperation: AsyncOperation, WebFrameLoadDelegate {
+public class HTMLParseOperation: AsyncOperation, WKNavigationDelegate {
     let html: String
     
     init(html: String) {
@@ -34,7 +34,7 @@ public class HTMLParseOperation: AsyncOperation, WebFrameLoadDelegate {
         super.init()
     }
     
-    var webView: WebView!
+    var webView: WKWebView!
     var result: HTMLParseResult?
     
     override open func main() {
@@ -46,13 +46,13 @@ public class HTMLParseOperation: AsyncOperation, WebFrameLoadDelegate {
         }
         
         DispatchQueue.main.async {
-            self.webView = WebView()
-            self.webView.frameLoadDelegate = self
-            self.webView.mainFrame.loadHTMLString(self.html, baseURL: URL(string: "http://localhost"))
+            self.webView = WKWebView()
+            self.webView.navigationDelegate = self
+            self.webView.loadHTMLString(self.html, baseURL: URL(string: "http://localhost"))
         }
     }
-    
-    public func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
+
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         parseWebView()
     }
     

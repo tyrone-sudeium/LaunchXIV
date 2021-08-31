@@ -10,23 +10,19 @@ import WebKit
 
 public class StoredParseOperation: HTMLParseOperation {
     public override func parseWebView() {
-        // TODO: rewrite this using JS
-        guard let fields = webView.mainFrame.domDocument.getElementsByName("_STORED_") else {
-            result = .error
-            state = .finished
-            return
-        }
-        for i in 0..<fields.length {
-            let node = fields.item(i)!
-            guard let inputNode = node as? DOMHTMLInputElement,
-                let value = inputNode.value else {
-                    continue
+        webView.evaluateJavaScript("document.querySelectorAll('input[name=\"_STORED_\"]')[0].value") { object, error in
+            if error != nil {
+                self.result = .error
+                self.state = .finished
+                return
             }
-            result = .result(value)
+            guard let jsStr = object as? String else {
+                self.result = .error
+                self.state = .finished
+                return
+            }
+            self.result = .result(jsStr)
+            self.state = .finished
         }
-        if result == nil {
-            result = .error
-        }
-        state = .finished
     }
 }
