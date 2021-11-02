@@ -1,4 +1,4 @@
-# LaunchXIV - A Better Launcher for Final Fantasy XIV
+# LaunchXIV - A Little Launcher for Final Fantasy XIV
 
 This is a custom launcher for the the Mac version of Final Fantasy XIV. It's
 barebones and probably full of a lot of bugs but it should more or less do
@@ -13,11 +13,9 @@ Features:
 
 **Security Warning**:
 You shouldn't just randomly trust random applications from the internet with
-your passwords! Even though I do provide codesigned binaries for download here,
-that's only secure when there's an implied trust that I won't ever provide a
-binary that does malicious things that aren't reflected in the source code! The
-only truly safe way is to audit the code yourself and compile your own
-binaries. This is a nuisance, but Apple provides Xcode and developer accounts
+your passwords! The only truly safe way to use software involving your passwords
+like this is to audit the code yourself and compile your own binaries. This is
+a nuisance, but Apple provides Xcode and developer accounts
 for free.
 
 If you can't be bothered and feel like you can trust me, a complete stranger
@@ -31,9 +29,8 @@ stable version is available by clicking the Releases link above.
 > properly.
 
 * Clone this repo (obviously).
-* Install Xcode 11.3+.
+* Install Xcode 12.4+.
 * Open `LaunchXIV.xcodeproj` in Xcode.
-* You'll probably need to change the Bundle ID for codesigning.
 * Build & Run.
 
 # FAQ
@@ -83,8 +80,8 @@ fans, to do it for them. You're welcome.
 
 ## Can I use this to play on Mac with my PC license?
 
-No. I'm pretty sure such a thing is _technically possible_ since wine is open
-source, though.
+No. I'm pretty sure such a thing is _technically possible_ since CrossOver/wine 
+is open source, though.
 
 ## Does this completely replace the standard launcher?
 
