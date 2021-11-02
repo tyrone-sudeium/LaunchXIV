@@ -269,14 +269,14 @@ private struct FFXIVLogin {
     ]
     
     static let sessionHeaders = [
-        "User-Agent": userAgent,
+        "User-Agent": "FFXIV-MAC PATCH CLIENT",
         "Content-Type": "application/x-www-form-urlencoded",
         "X-Hash-Check": "enabled"
     ]
     
     
     static let versionHeaders = [
-        "User-Agent": "FFXIV PATCH CLIENT"
+        "User-Agent": "FFXIV-MAC PATCH CLIENT"
     ]
     
     var loginURL: URL {
@@ -364,14 +364,11 @@ private struct FFXIVLogin {
     }
     
     fileprivate func getFinalSID(tempSID: String, cookie: String?, updatedSettings: FFXIVSettings, completion: @escaping ((FFXIVLoginResult) -> Void)) {
-        var headers = FFXIVLogin.sessionHeaders
-        if let cookie = cookie {
-            headers["Cookie"] = cookie
-        }
-        headers["Referer"] = loginURL.absoluteString
+        let headers = FFXIVLogin.sessionHeaders
+
         var url = sessionURL
         url = url.appendingPathComponent(tempSID)
-        let postBody = app.versionHash.data(using: .utf8)
+        let postBody = app.versionList(maxEx: updatedSettings.expansionId.rawValue).data(using: .utf8)
         fetch(headers: headers, url: url, postBody: postBody) { body, response in
             if let unexpectedResponseBody = body, unexpectedResponseBody.count > 0 {
                 if (response.statusCode <= 299) {
@@ -381,11 +378,15 @@ private struct FFXIVLogin {
                 }
                 return
             }
-            guard let finalSid = response.allHeaderFields["X-Patch-Unique-Id"] as? String else {
+
+            // Apple changed allHeaderFields in newer SDKs to "canonicalize" headers. So on some OSes it'll be lowercase and others it won't... thanks.
+            if let finalSid = response.allHeaderFields["X-Patch-Unique-Id"] as? String {
+                completion(.success(sid: finalSid, updatedSettings: updatedSettings))
+            } else if let finalSid = response.allHeaderFields["x-patch-unique-id"] as? String {
+                completion(.success(sid: finalSid, updatedSettings: updatedSettings))
+            } else {
                 completion(.protocolError)
-                return
             }
-            completion(.success(sid: finalSid, updatedSettings: updatedSettings))
         }
     }
     
@@ -424,7 +425,7 @@ public struct FFXIVApp {
     let appURL: URL
     let bootExeURL: URL
     let bootExe64URL: URL
-    let launcherVersionURL: URL
+    let bootVersionURL: URL
     let launcherExeURL: URL
     let launcherExe64URL: URL
     let updaterExeURL: URL
@@ -433,6 +434,7 @@ public struct FFXIVApp {
     let dx9URL: URL
     let dx11URL: URL
     let gameVersionURL: URL
+    let sqpackFolderURL: URL
     
     init(_ appURL: URL) {
         self.appURL = appURL
@@ -453,7 +455,7 @@ public struct FFXIVApp {
         let boot = ffxiv.appendingPathComponent("boot")
         bootExeURL = boot.appendingPathComponent("ffxivboot.exe")
         bootExe64URL = boot.appendingPathComponent("ffxivboot64.exe")
-        launcherVersionURL = boot.appendingPathComponent("ffxivgame.ver")
+        bootVersionURL = boot.appendingPathComponent("ffxivboot.ver")
         launcherExeURL = boot.appendingPathComponent("ffxivlauncher.exe")
         launcherExe64URL = boot.appendingPathComponent("ffxivlauncher64.exe")
         updaterExeURL = boot.appendingPathComponent("ffxivupdater.exe")
@@ -470,10 +472,11 @@ public struct FFXIVApp {
         dx9URL = game.appendingPathComponent("ffxiv.exe")
         dx11URL = game.appendingPathComponent("ffxiv_dx11.exe")
         gameVersionURL = game.appendingPathComponent("ffxivgame.ver")
+        sqpackFolderURL = game.appendingPathComponent("sqpack")
     }
     
     var bootVer: String {
-        let data = try! Data.init(contentsOf: launcherVersionURL)
+        let data = try! Data.init(contentsOf: bootVersionURL)
         return String(data: data, encoding: .utf8)!
     }
     
@@ -492,6 +495,22 @@ public struct FFXIVApp {
             FFXIVApp.hashSegment(file: updaterExe64URL),
         ]
         return segments.joined(separator: ",")
+    }
+
+    func sqpackVer(expansion: String) -> String {
+        let url = sqpackFolderURL
+            .appendingPathComponent(expansion)
+            .appendingPathComponent("\(expansion).ver")
+
+        let data = try! Data.init(contentsOf: url)
+        return String(data: data, encoding: .utf8)!
+    }
+
+    func versionList(maxEx: UInt32) -> String {
+        let exs = stride(from: 1, through: maxEx, by: 1).map({"ex\($0)"})
+        let versions = exs.map({"\($0)\t\(sqpackVer(expansion: $0))"})
+        let versionList = "\(bootVer)=\(versionHash)\n\(versions.joined(separator: "\n"))"
+        return versionList
     }
     
     private static func hashSegment(file: URL) -> String {
